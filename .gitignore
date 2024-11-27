@@ -1,0 +1,39 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build output directories
+dist/
+build/
+
+# Tailwind CSS
+tailwind.log
+
+# React
+/.cache
+*.lock
+
+# MongoDB
+*.log
+*.pid
+*.seed
+data/
+
+# Other
+coverage/
