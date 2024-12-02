@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import axios from 'axios'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SignUpPage from "./components/SignUp";
+import LoginPage from './components/LoginPage';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -20,13 +23,28 @@ function App() {
 
 
   return (
-    <>
+<Router>
       <Navbar />
-      <div>
-        {message}
+      <div className="mt-16"> 
+        <Routes>
+          {/* Home Route */}
+          <Route
+            path="/"
+            element={
+              <div className="p-6">
+                <h1 className="text-2xl font-bold">Welcome to TradeHub!</h1>
+                <p className="mt-4">{message}</p>
+              </div>
+            }
+          />
+
+          {/* Sign Up Page Route */}
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
       </div>
-    </>
-  )
+    </Router>
+  );
 }
 
 export default App;

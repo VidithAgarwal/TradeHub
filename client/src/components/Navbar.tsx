@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -9,6 +11,9 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+  };
+  const handleSignUp = () => {
+    navigate("/signup"); 
   };
 
   return (
@@ -34,12 +39,20 @@ const Navbar: React.FC = () => {
               Home
             </a>
             {!isLoggedIn ? (
+              <>
               <button
-                onClick={handleLogin}
+                onClick={() => navigate("/login")}
                 className="px-6 py-2 bg-white text-blue-600 font-medium text-lg rounded-lg shadow-md hover:bg-blue-100 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 Login
               </button>
+              <button
+              onClick={handleSignUp}
+              className="px-6 py-2 bg-white text-blue-600 font-medium text-lg rounded-lg shadow-md hover:bg-blue-100 hover:shadow-lg transition duration-300 ease-in-out"
+              >
+              Sign Up
+            </button>
+          </>
             ) : (
               <>
                 <a
@@ -96,7 +109,7 @@ const Navbar: React.FC = () => {
           </a>
           {!isLoggedIn ? (
             <button
-              onClick={handleLogin}
+            onClick={() => navigate("/login")}
               className="block w-full text-left px-4 py-2 rounded-lg text-base font-medium text-blue-600 bg-white hover:bg-blue-100"
             >
               Login
@@ -115,6 +128,12 @@ const Navbar: React.FC = () => {
               >
                 Logout
               </button>
+              <button
+            onClick={() => navigate("/signup")}
+            className="block w-full text-left px-4 py-2 rounded-lg text-base font-medium text-white bg-blue-700 hover:bg-blue-800"
+          >
+            Sign Up
+          </button>
             </>
           )}
         </div>
