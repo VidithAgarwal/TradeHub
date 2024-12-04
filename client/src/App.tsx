@@ -4,6 +4,7 @@ import axios from 'axios'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUpPage from "./components/SignUp";
 import LoginPage from './components/LoginPage';
+import ProductPage from "./components/ProductPage";
 
 function App() {
   const [message, setMessage] = useState('');
@@ -41,6 +42,7 @@ function App() {
           {/* Sign Up Page Route */}
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
         </Routes>
       </div>
     </Router>
