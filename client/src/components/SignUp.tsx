@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { registerUser } from "../services/api"; 
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const SignUpPage: React.FC = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -25,6 +28,8 @@ const SignUpPage: React.FC = () => {
       const response = await registerUser(formData); // Call the API
       setSuccess(response.message); // Show success message from the response
       console.log("User registered:", response);
+      navigate("/home");
+      
     } catch (err: any) {
       setError(err.message || "Something went wrong"); // Show error message
     }
