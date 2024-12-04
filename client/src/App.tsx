@@ -1,32 +1,32 @@
-import { useEffect, useState } from 'react'
-import Navbar from './components/Navbar'
-import axios from 'axios'
+import { useEffect, useState } from "react";
+import Navbar from "./components/Navbar";
+import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUpPage from "./components/SignUp";
-import LoginPage from './components/LoginPage';
+import LoginPage from "./components/LoginPage";
 import ProductPage from "./components/ProductPage";
+import Home from "./components/Home/Home";
 
 function App() {
-  const [message, setMessage] = useState('');
-    useEffect(() => {
-        const checkServerConnection = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/');
-                setMessage(response.data);
-            } catch (error) {
-                console.error('Error connecting to the server:', error);
-                setMessage('Failed to connect to the server');
-            }
-        };
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    const checkServerConnection = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/");
+        setMessage(response.data);
+      } catch (error) {
+        console.error("Error connecting to the server:", error);
+        setMessage("Failed to connect to the server");
+      }
+    };
 
-        checkServerConnection();
-    }, []);
-
+    checkServerConnection();
+  }, []);
 
   return (
-<Router>
+    <Router>
       <Navbar />
-      <div className="mt-16"> 
+      <div className="mt-16">
         <Routes>
           {/* Home Route */}
           <Route
@@ -43,6 +43,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </div>
     </Router>

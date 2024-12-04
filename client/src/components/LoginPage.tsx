@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { loginUser } from "../services/api"; // Import login API
-
+import { useNavigate } from "react-router-dom";
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -9,6 +9,8 @@ const LoginPage: React.FC = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,7 +23,7 @@ const LoginPage: React.FC = () => {
       setError("");
       const response = await loginUser(formData); // Call the login API
       setSuccess(response.message); // Display success message
-      console.log("User logged in:", response);
+      navigate("/home");
     } catch (err: any) {
       setError(err.message || "Invalid credentials.");
     }
