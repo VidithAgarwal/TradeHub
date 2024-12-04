@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { loginUser } from "../services/api"; // Import login API
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -6,17 +7,24 @@ const LoginPage: React.FC = () => {
     password: "",
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    console.log("Login Data:", formData);
+    try {
+      setError("");
+      const response = await loginUser(formData); // Call the login API
+      setSuccess(response.message); // Display success message
+      console.log("User logged in:", response);
+    } catch (err: any) {
+      setError(err.message || "Invalid credentials.");
+    }
   };
 
   return (
@@ -27,26 +35,32 @@ const LoginPage: React.FC = () => {
           Enter your email and password to log in.
         </p>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="mt-6 space-y-6">
-          {/* Email Input */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email Address
             </label>
-            <input id="email" name="email" type="email" required value={formData.email}
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
 
-          {/* Password Input */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
-            <input id="password" name="password" type="password" required
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
@@ -54,7 +68,6 @@ const LoginPage: React.FC = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-indigo-600 hover:bg-white hover:text-indigo-600 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300"
@@ -63,11 +76,8 @@ const LoginPage: React.FC = () => {
           </button>
         </form>
 
-        {submitted && (
-          <p className="mt-4 text-center text-green-600 font-medium">
-            Login successful!
-          </p>
-        )}
+        {error && <p className="mt-4 text-center text-red-600 font-medium">{error}</p>}
+        {success && <p className="mt-4 text-center text-green-600 font-medium">{success}</p>}
       </div>
     </div>
   );

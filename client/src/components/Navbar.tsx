@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../services/api";
 
 const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -9,11 +10,19 @@ const Navbar: React.FC = () => {
     setIsLoggedIn(true);
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
+  
   const handleSignUp = () => {
     navigate("/signup"); 
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser(); // Call the logout API
+      setIsLoggedIn(false); // Update state
+      navigate("/login"); // Redirect to login page
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
