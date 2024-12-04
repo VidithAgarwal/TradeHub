@@ -10,13 +10,13 @@ interface RegisterData {
   role: string;
   name: string;
   email: string;
-  mobile: string;
+  phone: string;
   password: string;
 }
 
 // Create Axios instance
 const api = axios.create({
-  baseURL: "http://localhost:5001/api/user",
+  baseURL: "http://localhost:5000/api/user",
   withCredentials: true,
 });
 

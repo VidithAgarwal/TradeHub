@@ -6,7 +6,7 @@ const SignUpPage: React.FC = () => {
     role: "",
     name: "",
     email: "",
-    mobile: "",
+    phone: "",
     password: "",
   });
 
@@ -54,9 +54,9 @@ const SignUpPage: React.FC = () => {
               <option value="" disabled>
                 Select your role
               </option>
-              <option value="Buyer">Buyer</option>
-              <option value="Seller">Seller</option>
-              <option value="Admin">Admin</option>
+              <option value="buyer">Buyer</option>
+              <option value="seller">Seller</option>
+              <option value="admin">Admin</option>
             </select>
           </div>
 
@@ -93,15 +93,15 @@ const SignUpPage: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
               Mobile Number
             </label>
             <input
-              id="mobile"
-              name="mobile"
+              id="phone"
+              name="phone"
               type="tel"
               required
-              value={formData.mobile}
+              value={formData.phone}
               onChange={handleChange}
               placeholder="Enter your mobile number"
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
