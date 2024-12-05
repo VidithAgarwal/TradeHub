@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { loginUser } from "../services/api"; // Import login API
 import { useNavigate } from "react-router-dom";
+
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -30,13 +31,22 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-indigo-600 pt-16">
-      <div className="w-full max-w-md bg-white p-10 rounded-lg shadow-lg">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r">
+      <div className="transform -translate-y-10 w-full max-w-md bg-white p-10 rounded-lg shadow-2xl border border-gray-200">
+        {/* Logo */}
+        <img
+          src="/vite.svg" // Replace with your logo path
+          alt="Company Logo"
+          className="h-10 w-10 mx-auto mb-6 rounded-full shadow-md"
+        />
+
+        {/* Title */}
         <h2 className="text-4xl font-extrabold text-center text-blue-600">Login</h2>
         <p className="mt-2 text-center text-sm text-gray-500">
           Enter your email and password to log in.
         </p>
 
+        {/* Form */}
         <form onSubmit={handleSubmit} className="mt-6 space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -78,8 +88,11 @@ const LoginPage: React.FC = () => {
           </button>
         </form>
 
+        {/* Error/Success Messages */}
         {error && <p className="mt-4 text-center text-red-600 font-medium">{error}</p>}
         {success && <p className="mt-4 text-center text-green-600 font-medium">{success}</p>}
+
+        
       </div>
     </div>
   );

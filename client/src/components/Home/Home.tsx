@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { products } from "../../utils/products.js";
+import { products } from "../../utils/products";
 
 const Home = () => {
   return (
