@@ -16,7 +16,7 @@ interface RegisterData {
 
 // Create Axios instance
 const api = axios.create({
-  baseURL: "http://localhost:5001/api/user",
+  baseURL: "http://localhost:5000/api/user",
   withCredentials: true,
 });
 
