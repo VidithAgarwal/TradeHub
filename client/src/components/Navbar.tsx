@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="container px-28 py-5">
+    <div className="container mx-auto px-28 py-5">
       <nav className="flex items-center bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 px-6 rounded-lg">
         <img src="./vite.svg" className="cursor-pointer"></img>
-        <ul className="flex-1 text-center">
+        <ul className="hidden w-full lg:flex lg:w-auto lg:items-center lg:justify-between lg:ml-auto">
           <li className="list-none inline-block px-5">
             <Link
               to="/"
