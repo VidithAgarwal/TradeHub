@@ -47,6 +47,7 @@ const LoginPage: React.FC = () => {
           Enter your email and password to log in.
         </p>
 
+        {/* Form */}
         <form onSubmit={handleSubmit} className="mt-6 space-y-6">
           <div>
             <label

@@ -18,27 +18,26 @@ const ProductPage: React.FC = () => {
     const mockProducts = [
       {
         id: "1",
-        name: "Plant Vase",
-        description: "Description .............. helllo........",
-        price: 29.99,
+        name: "iPhone 16 Pro",
+        description: "Experience the future of technology with the iPhone 16 Pro. Featuring a stunning titanium design, an advanced A18 Bionic chip for lightning-fast performance, a ProMotion XDR display, and a groundbreaking 48MP triple-camera system for pro-level photography. With all-day battery life, enhanced durability, and the latest iOS, the iPhone 16 Pro redefines what a smartphone can do.",
+        price: 999,
         quantity: 20,
-        image: "https://www.houseplant.co.uk/cdn/shop/articles/monstera-shoot-pink.webp?v=1703855276",
+        image: "https://ss7.vzw.com/is/image/VerizonWireless/apple-iphone-16-pro-white-titanium?wid=930&hei=930&fmt=webp",
       },
-      
     ];
 
     // Fetching mock product based on ID
     const productData = mockProducts.find((item) => item.id === id);
     if (productData) {
       setProduct(productData);
-      setError(""); // Clear any errors
+      setError(""); 
     } else {
       setError("Product not found"); // Handle missing product
     }
   }, [id]);
 
   return (
-    <div className="pt-20 min-h-screen bg-gradient-to-br from-blue-500 to-indigo-600">
+    <div className="pt-20 min-h-screen bg-gray-100">
       <div className="container mx-auto p-6">
         {error ? (
           <div className="bg-white p-8 rounded-lg shadow-lg text-center">
@@ -46,7 +45,7 @@ const ProductPage: React.FC = () => {
             <p className="mt-4 text-gray-700">{error}</p>
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-lg p-8 flex flex-col md:flex-row md:items-start">
+          <div className="bg-gray-200 rounded-lg shadow-lg p-8 flex flex-col md:flex-row md:items-start md:max-w-4xl mx-auto">
             {/* Product Image */}
             <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
               <img
@@ -59,7 +58,7 @@ const ProductPage: React.FC = () => {
             {/* Product Details */}
             <div className="w-full md:w-1/2 md:pl-8 flex flex-col justify-between">
               <div>
-                <h1 className="text-4xl font-extrabold text-blue-600">{product.name}</h1>
+                <h1 className="text-3xl font-bold text-blue-600">{product.name}</h1>
                 <p className="mt-4 text-gray-700">{product.description}</p>
                 <p className="mt-4 text-2xl font-bold text-indigo-600">${product.price}</p>
                 <p className="mt-2 text-sm text-gray-500">

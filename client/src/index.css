@@ -75,4 +75,24 @@ button:focus-visible {
   }
 }
 
+
+@keyframes gradientBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-gradient-to-r {
+  background: linear-gradient(-45deg, #667eea, #764ba2,#3b82f6, #1e3a8a);
+  background-size: 400% 400%;
+  animation: gradientBackground 15s ease infinite;
+}
+
+
 @tailwind directives;
