@@ -58,7 +58,7 @@ const Navbar = () => {
               </li>
             </>
           ) : (
-            // Otherwise, show Login and Signup buttons
+
             <>
               <li className="list-none inline-block px-5">
                 <Link
