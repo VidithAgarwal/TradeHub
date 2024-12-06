@@ -28,6 +28,7 @@ const LoginPage: React.FC = () => {
       const response = await loginUser(formData);
       setSuccess(response.message);
       dispatch(login());
+      localStorage.setItem("token", response?.token);
       setTimeout(() => {
         setSuccess("");
         navigate("/home");

@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <div className="container mx-auto px-28 py-5">
       <nav className="flex items-center bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 px-6 rounded-lg">
@@ -16,7 +25,7 @@ const Navbar = () => {
           </li>
 
           <li className="list-none inline-block px-5">
-          <Link
+            <Link
               to="/home"
               className="no-underline px-2 text-white hover:text-yellow-300"
             >
@@ -28,22 +37,47 @@ const Navbar = () => {
               About Us
             </a>
           </li>
-          <li className="list-none inline-block px-5">
-            <Link
-              to="/login"
-              className="no-underline px-2 text-white hover:text-yellow-300"
-            >
-              Login
-            </Link>
-          </li>
-          <li className="list-none inline-block px-5">
-            <Link
-              to="/signup"
-              className="no-underline px-2 text-white hover:text-yellow-300"
-            >
-              SignUp
-            </Link>
-          </li>
+          {token ? (
+            // If token exists, show Profile and Logout buttons
+            <>
+              <li className="list-none inline-block px-5">
+                <Link
+                  to="/profile"
+                  className="no-underline px-2 text-white hover:text-yellow-300"
+                >
+                  Profile
+                </Link>
+              </li>
+              <li className="list-none inline-block px-5">
+                <button
+                  onClick={handleLogout}
+                  className="no-underline px-2 text-white hover:text-yellow-300 bg-transparent border-none cursor-pointer"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            // Otherwise, show Login and Signup buttons
+            <>
+              <li className="list-none inline-block px-5">
+                <Link
+                  to="/login"
+                  className="no-underline px-2 text-white hover:text-yellow-300"
+                >
+                  Login
+                </Link>
+              </li>
+              <li className="list-none inline-block px-5">
+                <Link
+                  to="/signup"
+                  className="no-underline px-2 text-white hover:text-yellow-300"
+                >
+                  SignUp
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </div>
