@@ -6,6 +6,9 @@ import SignUpPage from "./components/SignUp";
 import LoginPage from "./components/LoginPage";
 import ProductPage from "./components/ProductPage";
 import Home from "./components/Home/Home";
+import { Provider, useSelector, useDispatch } from "react-redux";
+import appStore from "../utils/store";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -23,22 +26,21 @@ function App() {
     checkServerConnection();
   }, []);
 
+  // const isLoggedIn = false;
+  // const isLoggedIn = useSelector((appStore: any) => appStore.user);
+  // console.log(isLoggedIn)
+  console.log(appStore.getState());
+
+  const isLoggedIn = useSelector((store: any) => store?.user?.isLoggedIn);
+
   return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
     <Router>
       <Navbar />
-      <div className="mt-16">
+      <div>
         <Routes>
-          {/* Home Route */}
-          <Route
-            path="/"
-            element={
-              <div className="p-6">
-                <h1 className="text-2xl font-bold">Welcome to TradeHub!</h1>
-                <p className="mt-4">{message}</p>
-              </div>
-            }
-          />
-
+  
+          <Route path="/" element={<LandingPage />} />
           {/* Sign Up Page Route */}
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -47,6 +49,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </div>
   );
 }
 
