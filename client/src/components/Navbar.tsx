@@ -4,11 +4,13 @@ import { useState } from "react";
 
 const Navbar = () => {
   const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("role");
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     navigate("/");
   };
 
@@ -43,7 +45,6 @@ const Navbar = () => {
             isMenuOpen ? "block" : "hidden"
           } w-full lg:w-auto lg:flex-row flex flex-col lg:ml-auto mt-4 lg:mt-0`}
         >
-          {/* Common Links */}
           <li>
             <Link
               to="/"
@@ -53,13 +54,34 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
+            {userRole === "buyer" ? (
+              <>
+                <Link
+                  to="/bhome"
+                  className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
+                >
+                  Features
+                </Link>
+              </>
+            ) : (
+              <Link
+                to="/shome"
+                className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
+              >
+                Features
+              </Link>
+            )}
+          </li>
+          {userRole === "seller" ? (
             <Link
-              to="/home"
+              to="/addProduct"
               className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
             >
-              Features
+              Add Product
             </Link>
-          </li>
+          ) : (
+            <></>
+          )}
           <li>
             <Link
               to="#"

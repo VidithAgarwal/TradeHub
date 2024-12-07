@@ -28,6 +28,12 @@ const UserSchema = new mongoose.Schema(
       enum: ['buyer', 'seller', 'admin'],
       default: 'buyer',
     },
+    purchasedProducts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
     createdAt: {
       type: Date,
       default: Date.now,

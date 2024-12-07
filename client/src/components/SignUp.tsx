@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { registerUser } from "../services/api"; 
+import { registerUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 const SignUpPage: React.FC = () => {
@@ -25,11 +25,16 @@ const SignUpPage: React.FC = () => {
     e.preventDefault();
     try {
       setError("");
-      const response = await registerUser(formData); // Call the API
-      setSuccess(response.message); // Show success message from the response
+      const response = await registerUser(formData);
+      setSuccess(response.message);
       console.log("User registered:", response);
-      navigate("/home");
-      
+      localStorage.setItem("token", response?.token);
+      localStorage.setItem("role", response?.user?.role);
+      if (response?.user?.role === "buyer") {
+        navigate("/bhome");
+      } else {
+        navigate("/shome");
+      }
     } catch (err: any) {
       setError(err.message || "Something went wrong"); // Show error message
     }
@@ -38,14 +43,19 @@ const SignUpPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen ">
       <div className="w-full max-w-lg bg-white p-10 rounded-lg shadow-lg">
-        <h2 className="text-4xl font-extrabold text-center text-blue-600">Sign Up</h2>
+        <h2 className="text-4xl font-extrabold text-center text-blue-600">
+          Sign Up
+        </h2>
         <p className="mt-2 text-center text-sm text-gray-500">
           Please fill in your details to create an account.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-6">
           <div>
-            <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="role"
+              className="block text-sm font-medium text-gray-700"
+            >
               Select Role
             </label>
             <select
@@ -66,7 +76,10 @@ const SignUpPage: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
               Name
             </label>
             <input
@@ -82,7 +95,10 @@ const SignUpPage: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email Address
             </label>
             <input
@@ -98,7 +114,10 @@ const SignUpPage: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700"
+            >
               Mobile Number
             </label>
             <input
@@ -114,7 +133,10 @@ const SignUpPage: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -137,8 +159,14 @@ const SignUpPage: React.FC = () => {
           </button>
         </form>
 
-        {error && <p className="mt-4 text-center text-red-600 font-medium">{error}</p>}
-        {success && <p className="mt-4 text-center text-green-600 font-medium">{success}</p>}
+        {error && (
+          <p className="mt-4 text-center text-red-600 font-medium">{error}</p>
+        )}
+        {success && (
+          <p className="mt-4 text-center text-green-600 font-medium">
+            {success}
+          </p>
+        )}
       </div>
     </div>
   );

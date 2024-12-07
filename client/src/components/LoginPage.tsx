@@ -29,9 +29,14 @@ const LoginPage: React.FC = () => {
       setSuccess(response.message);
       dispatch(login());
       localStorage.setItem("token", response?.token);
+      localStorage.setItem("role", response?.user?.role);
       setTimeout(() => {
         setSuccess("");
-        navigate("/home");
+        if (response?.user?.role === "buyer") {
+          navigate("/bhome");
+        } else {
+          navigate("/shome");
+        }
       }, 2000);
     } catch (err: any) {
       setError(err.message || "Invalid credentials.");
