@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Navbar = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -11,67 +13,95 @@ const Navbar = () => {
   };
 
   return (
-    <div className="container mx-auto px-28 py-5">
-      <nav className="flex items-center bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 px-6 rounded-lg">
-        <img src="./vite.svg" className="cursor-pointer"></img>
-        <ul className="hidden w-full lg:flex lg:w-auto lg:items-center lg:justify-between lg:ml-auto">
-          <li className="list-none inline-block px-5">
+    <div className="container mx-auto px-6 py-5">
+      <nav className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 px-6 rounded-lg">
+        <Link to="/" className="text-xl font-bold cursor-pointer">
+          <img src="./vite.svg" alt="Logo" className="h-8 inline-block" />
+        </Link>
+
+        <button
+          className="lg:hidden block text-white focus:outline-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="2"
+            stroke="currentColor"
+            className="h-6 w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 5.25h16.5M3.75 12h16.5m-16.5 6.75h16.5"
+            />
+          </svg>
+        </button>
+        <ul
+          className={`lg:flex lg:items-center lg:justify-between lg:space-x-6 ${
+            isMenuOpen ? "block" : "hidden"
+          } w-full lg:w-auto lg:flex-row flex flex-col lg:ml-auto mt-4 lg:mt-0`}
+        >
+          {/* Common Links */}
+          <li>
             <Link
               to="/"
-              className="no-underline px-2 text-white hover:text-yellow-300"
+              className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
             >
               Home
             </Link>
           </li>
-
-          <li className="list-none inline-block px-5">
+          <li>
             <Link
               to="/home"
-              className="no-underline px-2 text-white hover:text-yellow-300"
+              className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
             >
               Features
             </Link>
           </li>
-          <li className="list-none inline-block px-5">
-            <a href="#" className="no-underline px-2  text-white">
+          <li>
+            <Link
+              to="#"
+              className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
+            >
               About Us
-            </a>
+            </Link>
           </li>
+
           {token ? (
-            // If token exists, show Profile and Logout buttons
             <>
-              <li className="list-none inline-block px-5">
+              <li>
                 <Link
                   to="/profile"
-                  className="no-underline px-2 text-white hover:text-yellow-300"
+                  className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
                 >
                   Profile
                 </Link>
               </li>
-              <li className="list-none inline-block px-5">
+              <li>
                 <button
                   onClick={handleLogout}
-                  className="no-underline px-2 text-white hover:text-yellow-300 bg-transparent border-none cursor-pointer"
+                  className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0 bg-transparent border-none cursor-pointer"
                 >
                   Logout
                 </button>
               </li>
             </>
           ) : (
-
             <>
-              <li className="list-none inline-block px-5">
+              <li>
                 <Link
                   to="/login"
-                  className="no-underline px-2 text-white hover:text-yellow-300"
+                  className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
                 >
                   Login
                 </Link>
               </li>
-              <li className="list-none inline-block px-5">
+              <li>
                 <Link
                   to="/signup"
-                  className="no-underline px-2 text-white hover:text-yellow-300"
+                  className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
                 >
                   SignUp
                 </Link>

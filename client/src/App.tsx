@@ -9,6 +9,7 @@ import Home from "./components/Home/Home";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import appStore from "../utils/store";
 import LandingPage from "./components/LandingPage";
+import Profile from "./components/Profile/Profile";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -46,6 +47,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Profile/>} />
         </Routes>
       </div>
     </Router>
