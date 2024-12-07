@@ -6,6 +6,7 @@ import SignUpPage from "./components/SignUp";
 import LoginPage from "./components/LoginPage";
 import ProductPage from "./components/ProductPage";
 import Home from "./components/Home/Home";
+import SellerForm from "./components/SellerForm"; 
 import { Provider, useSelector, useDispatch } from "react-redux";
 import appStore from "../utils/store";
 import LandingPage from "./components/LandingPage";
@@ -15,7 +16,7 @@ function App() {
   useEffect(() => {
     const checkServerConnection = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/");
+        const response = await axios.get("http://localhost:5001/");
         setMessage(response.data);
       } catch (error) {
         console.error("Error connecting to the server:", error);
@@ -45,6 +46,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/seller" element={<SellerForm />} />
           <Route path="/home" element={<Home />} />
         </Routes>
       </div>
