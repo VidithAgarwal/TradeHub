@@ -115,7 +115,7 @@ const BuyerHome = () => {
               <option value="Electronics">Electronics</option>
               <option value="Clothing">Clothing</option>
               <option value="Vehicle">Vehicle</option>
-              <option value="Homegoods">Home Goods</option>
+              <option value="home-goods">Home Goods</option>
               <option value="toys-and-games">Toys and Games</option>
               
             </select>
