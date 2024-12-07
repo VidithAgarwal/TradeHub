@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import userRouter from "./routes/userRoutes.js";
+import productRouter from "./routes/productRoutes.js";
 import cookieParser from "cookie-parser";
 import {errorMiddleware} from "./middlewares/errorHandler.js";
 
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);
 app.use(errorMiddleware);
 
 
