@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <div className="container mx-auto px-28 py-5">
       <nav className="flex items-center bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 px-6 rounded-lg">
-        <img src="./vite.svg" className="cursor-pointer"></img>
+        <img src="/vite.svg" className="cursor-pointer"></img>
         <ul className="hidden w-full lg:flex lg:w-auto lg:items-center lg:justify-between lg:ml-auto">
           <li className="list-none inline-block px-5">
             <Link

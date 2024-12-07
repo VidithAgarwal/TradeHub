@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const ProductPage: React.FC = () => {
-  const { id } = useParams(); // Get product ID from URL
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState<any>({
     name: "",
     description: "",
     price: 0,
     quantity: 0,
     image: "",
+    location: "",
+    seller: { id: "", name: "" },
   });
 
   const [error, setError] = useState("");
@@ -23,6 +26,8 @@ const ProductPage: React.FC = () => {
         price: 999,
         quantity: 20,
         image: "https://ss7.vzw.com/is/image/VerizonWireless/apple-iphone-16-pro-white-titanium?wid=930&hei=930&fmt=webp",
+        location: "San Francisco, CA",
+        seller: { id: "seller123", name: "John Doe" },
       },
     ];
 
@@ -30,11 +35,15 @@ const ProductPage: React.FC = () => {
     const productData = mockProducts.find((item) => item.id === id);
     if (productData) {
       setProduct(productData);
-      setError(""); 
+      setError("");
     } else {
-      setError("Product not found"); // Handle missing product
+      setError("Product not found");
     }
   }, [id]);
+
+  const handleSellerClick = () => {
+    navigate(`/seller/${product.seller.id}`);
+  };
 
   return (
     <div className="pt-20 min-h-screen bg-gray-100">
@@ -60,6 +69,18 @@ const ProductPage: React.FC = () => {
               <div>
                 <h1 className="text-3xl font-bold text-blue-600">{product.name}</h1>
                 <p className="mt-4 text-gray-700">{product.description}</p>
+                <p className="mt-4 text-gray-700">
+                  <strong>Location:</strong> {product.location}
+                </p>
+                <p className="mt-4 text-gray-700">
+                  <strong>Seller:</strong>{" "}
+                  <span
+                    className="text-indigo-600 underline cursor-pointer"
+                    onClick={handleSellerClick}
+                  >
+                    {product.seller.name}
+                  </span>
+                </p>
                 <p className="mt-4 text-2xl font-bold text-indigo-600">${product.price}</p>
                 <p className="mt-2 text-sm text-gray-500">
                   Available Quantity: {product.quantity}
@@ -70,11 +91,6 @@ const ProductPage: React.FC = () => {
               <div className="mt-6">
                 <button
                   className="w-full py-2 px-4 bg-indigo-600 text-white text-lg font-medium rounded-lg shadow-md hover:bg-indigo-700 transition duration-300"
-                >
-                  Add to Cart
-                </button>
-                <button
-                  className="w-full mt-4 py-2 px-4 border border-indigo-600 text-indigo-600 text-lg font-medium rounded-lg shadow-md hover:bg-indigo-600 hover:text-white transition duration-300"
                 >
                   Buy Now
                 </button>
