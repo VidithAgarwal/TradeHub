@@ -8,6 +8,7 @@ const SellerForm: React.FC = () => {
     location: "",
     image: null as File | null,
     price: "",
+    category: "", // New field for category
   });
 
   const [error, setError] = useState("");
@@ -31,7 +32,8 @@ const SellerForm: React.FC = () => {
       !formData.description ||
       !formData.quantity ||
       !formData.location ||
-      !formData.price
+      !formData.price ||
+      !formData.category // Ensure category is selected
     ) {
       setError("Please fill in all fields");
       return;
@@ -89,6 +91,34 @@ const SellerForm: React.FC = () => {
               placeholder="Enter product description"
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
+          </div>
+
+          {/* Category */}
+          <div>
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Category
+            </label>
+            <select
+              id="category"
+              name="category"
+              required
+              value={formData.category}
+              onChange={handleChange}
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              <option value="electronics">Electronics</option>
+              <option value="furniture">Furniture</option>
+              <option value="clothing">Clothing</option>
+              <option value="vehicles">Vehicles</option>
+              <option value="toys-and-games">Toys and Games</option>
+              <option value="home-goods">Home Goods</option>
+            </select>
           </div>
 
           {/* Quantity */}
