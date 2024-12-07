@@ -8,7 +8,7 @@ const SellerForm: React.FC = () => {
     location: "",
     image: null as File | null,
     price: "",
-    category: "", // New field for category
+    category: "",
   });
 
   const [error, setError] = useState("");
@@ -21,7 +21,7 @@ const SellerForm: React.FC = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
+      setFormData((prev) => ({ ...prev, image: e?.target?.files[0] }));
     }
   };
 

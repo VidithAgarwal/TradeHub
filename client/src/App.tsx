@@ -5,11 +5,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUpPage from "./components/SignUp";
 import LoginPage from "./components/LoginPage";
 import ProductPage from "./components/ProductPage";
-import Home from "./components/Home/Home";
-import SellerForm from "./components/SellerForm"; 
+import Home from "./components/Home/BuyerHome";
+import SellerForm from "./components/SellerForm";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import appStore from "../utils/store";
 import LandingPage from "./components/LandingPage";
+import Profile from "./components/Profile/Profile";
+import SellerHome from "./components/Home/SellerHome";
+import BuyerHome from "./components/Home/BuyerHome";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -27,30 +30,26 @@ function App() {
     checkServerConnection();
   }, []);
 
-  // const isLoggedIn = false;
-  // const isLoggedIn = useSelector((appStore: any) => appStore.user);
-  // console.log(isLoggedIn)
-  console.log(appStore.getState());
-
-  const isLoggedIn = useSelector((store: any) => store?.user?.isLoggedIn);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
-    <Router>
-      <Navbar />
-      <div>
-        <Routes>
-  
-          <Route path="/" element={<LandingPage />} />
-          {/* Sign Up Page Route */}
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/seller" element={<SellerForm />} />
-          <Route path="/home" element={<Home />} />
-        </Routes>
-      </div>
-    </Router>
+      <Router>
+        <Navbar />
+        <div>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            {/* Sign Up Page Route */}
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/seller" element={<SellerForm />} />
+            <Route path="/shome" element={<SellerHome />} />
+            <Route path="/bhome" element={<BuyerHome />} />
+
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/addProduct" element={<SellerForm />} />
+          </Routes>
+        </div>
+      </Router>
     </div>
   );
 }
