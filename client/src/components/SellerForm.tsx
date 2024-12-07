@@ -124,10 +124,10 @@ const SellerForm: React.FC = () => {
               <option value="" disabled>
                 Select a category
               </option>
-              <option value="electronics">Electronics</option>
-              <option value="furniture">Furniture</option>
-              <option value="clothing">Clothing</option>
-              <option value="vehicles">Vehicles</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Vehicle">Vehicles</option>
               <option value="toys-and-games">Toys and Games</option>
               <option value="home-goods">Home Goods</option>
             </select>
