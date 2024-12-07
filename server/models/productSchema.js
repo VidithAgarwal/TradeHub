@@ -8,7 +8,8 @@ const ProductSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: [true, "Image URL is required"],
+      required: [false, "Image URL is required"],
+      default: "https://via.placeholder.com/150",
     },
     price: {
       type: Number,
@@ -17,6 +18,15 @@ const ProductSchema = new mongoose.Schema(
     location: {
       type: String,
       required: [true, "Location is required"],
+    },
+    quantity: {
+      type: Number,
+      required: [false, "Quantity is required", ],
+      default: 1
+    },
+    description: {
+      type: String,
+      required: [true, "Description is required"],
     },
     seller: {
       type: mongoose.Schema.Types.ObjectId,
