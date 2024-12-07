@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { addProduct } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 const SellerForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -6,13 +8,14 @@ const SellerForm: React.FC = () => {
     description: "",
     quantity: "",
     location: "",
-    image: null as File | null,
+    image: "",
     price: "",
     category: "",
   });
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
@@ -20,12 +23,20 @@ const SellerForm: React.FC = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData((prev) => ({ ...prev, image: e?.target?.files[0] }));
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          image: reader.result?.toString().split(",")[1] || "",
+        });
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (
       !formData.name ||
@@ -33,13 +44,14 @@ const SellerForm: React.FC = () => {
       !formData.quantity ||
       !formData.location ||
       !formData.price ||
-      !formData.category // Ensure category is selected
+      !formData.category
     ) {
       setError("Please fill in all fields");
       return;
     }
-    setError("");
-    setSuccess("Product submitted successfully!");
+    await addProduct(formData);
+    setSuccess("Product added successfully!");
+    navigate("/shome");
     console.log("Submitted Product:", formData);
   };
 
@@ -211,7 +223,9 @@ const SellerForm: React.FC = () => {
           <p className="mt-4 text-center text-red-600 font-medium">{error}</p>
         )}
         {success && (
-          <p className="mt-4 text-center text-green-600 font-medium">{success}</p>
+          <p className="mt-4 text-center text-green-600 font-medium">
+            {success}
+          </p>
         )}
       </div>
     </div>

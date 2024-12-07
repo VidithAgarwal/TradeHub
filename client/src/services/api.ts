@@ -15,25 +15,44 @@ interface RegisterData {
 }
 
 // Create Axios instance
-const api = axios.create({
+const userAPI = axios.create({
   baseURL: "http://localhost:5000/api/user",
   withCredentials: true,
 });
 
+const productAPI = axios.create({
+  baseURL: "http://localhost:5000/api/product",
+  withCredentials: true,
+});
+
 // Login API
-export const loginUser = async (data: LoginData): Promise<{ message: string }> => {
-  const response = await api.post("/login", data);
+export const loginUser = async (
+  data: LoginData
+): Promise<{ message: string }> => {
+  const response = await userAPI.post("/login", data);
   return response.data;
 };
 
 // Register API
-export const registerUser = async (data: RegisterData): Promise<{ message: string }> => {
-  const response = await api.post("/register", data);
+export const registerUser = async (
+  data: RegisterData
+): Promise<{ message: string }> => {
+  const response = await userAPI.post("/register", data);
   return response.data;
 };
 
 // Logout API
 export const logoutUser = async (): Promise<{ message: string }> => {
-  const response = await api.get("/logout");
+  const response = await userAPI.get("/logout");
   return response.data;
 };
+
+export const addProduct = async (data: any): Promise<{ message: string }> => {
+  const response = await productAPI.post("/createProduct", data);
+  return response.data;
+};
+
+export const getProducts = async (): Promise<any> => {
+  const response = await productAPI.get("/");
+  return response.data;
+}
