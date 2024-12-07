@@ -1,5 +1,6 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
-import Product from "../models/Product.js";
+import Product from "../models/productSchema.js";
+import ErrorHandler from "../middlewares/errorHandler.js";
 
 // Create a product
 export const createProduct = catchAsyncErrors(async (req, res) => {
