@@ -51,6 +51,21 @@ export const register = catchAsyncErrors(async (req, res, next) => {
       });
   });
 
+  export const getUserById = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.params;
+
+    const user = await User.findById(id).select("-password");
+
+    if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        user,
+    });
+  });
+
   export const getUser = catchAsyncErrors((req, res, next) => {
     const user = req.user;
     res.status(200).json({
