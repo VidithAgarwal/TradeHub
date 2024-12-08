@@ -54,23 +54,18 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            {userRole === "buyer" ? (
-              <>
-                <Link
-                  to="/bhome"
-                  className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
-                >
-                  Features
-                </Link>
-              </>
-            ) : (
-              <Link
-                to="/shome"
-                className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
-              >
-                Features
-              </Link>
-            )}
+            <Link
+              to={
+                userRole === "buyer"
+                  ? "/bhome"
+                  : userRole === "seller"
+                  ? "/shome"
+                  : "/home"
+              }
+              className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
+            >
+              Features
+            </Link>
           </li>
           {userRole === "seller" ? (
             <Link
