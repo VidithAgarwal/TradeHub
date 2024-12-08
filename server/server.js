@@ -6,14 +6,24 @@ import userRouter from "./routes/userRoutes.js";
 import productRouter from "./routes/productRoutes.js";
 import cookieParser from "cookie-parser";
 import {errorMiddleware} from "./middlewares/errorHandler.js";
-
+import AWS from 'aws-sdk';
 
 // Load environment variables
 dotenv.config();
 
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+export const s3 = new AWS.S3();
+
 // Initialize Express
 const app = express();
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: '150mb' }));
+
 
 app.use(
     cors({

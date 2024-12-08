@@ -13,9 +13,16 @@ import LandingPage from "./components/LandingPage";
 import Profile from "./components/Profile/Profile";
 import SellerHome from "./components/Home/SellerHome";
 import BuyerHome from "./components/Home/BuyerHome";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const [message, setMessage] = useState("");
+  
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("token") !== null
+  );
+  
+
   useEffect(() => {
     const checkServerConnection = async () => {
       try {
@@ -37,16 +44,18 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            {/* Sign Up Page Route */}
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/product/:id" element={<ProductPage />} />
-            <Route path="/seller" element={<SellerForm />} />
-            <Route path="/shome" element={<SellerHome />} />
-            <Route path="/bhome" element={<BuyerHome />} />
 
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/addProduct" element={<SellerForm />} />
+            <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
+              <Route path="/product/:id" element={<ProductPage />} />
+              <Route path="/seller" element={<SellerForm />} />
+              <Route path="/shome" element={<SellerHome />} />
+              <Route path="/bhome" element={<BuyerHome />} />
+
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/addProduct" element={<SellerForm />} />
+            </Route>
           </Routes>
         </div>
       </Router>
