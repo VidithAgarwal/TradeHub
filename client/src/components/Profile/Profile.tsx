@@ -1,11 +1,20 @@
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { getProfileDetails } from "../../services/api";
+
 const Profile = () => {
-  const user = {
-    _id: "674fc9f891e5cf46039a3624",
-    name: "Jenish Kothari",
-    email: "kotharijenish2001@gmail.com",
-    role: "buyer",
-    createdAt: "2024-12-04T03:18:16.505Z",
+  const [user, setUser] = useState({});
+
+  const fetchUserData = async () => {
+    const userId = localStorage.getItem("id");
+    const userDetails = await getProfileDetails(userId);
+    setUser(userDetails);
   };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
   return (
     <div className="container mx-auto px-6 py-8">
       <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">

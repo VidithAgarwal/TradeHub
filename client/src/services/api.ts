@@ -55,4 +55,35 @@ export const addProduct = async (data: any): Promise<{ message: string }> => {
 export const getProducts = async (): Promise<any> => {
   const response = await productAPI.get("/");
   return response.data;
-}
+};
+
+export const getProfileDetails = async (userId): Promise<any> => {
+  const response = await userAPI.get(`/${userId}`);
+  return response?.data?.user;
+};
+
+export const getPreSignedURL = async (
+  fileName: string,
+  fileType: string
+): Promise<{ url: string }> => {
+  const response = await productAPI.get(
+    `/get-presigned-url?fileName=${encodeURIComponent(
+      fileName
+    )}&fileType=${fileType}`
+  );
+  return response.data;
+};
+
+export const uploadFile = async (url: string, file: File): Promise<void> => {
+  console.log(url, file);
+  const uploadResponse = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": file.type,
+    },
+    body: file,
+  });
+  if (!uploadResponse.ok) {
+    throw new Error("Failed to upload file to S3");
+  }
+};

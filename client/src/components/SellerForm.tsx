@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addProduct } from "../services/api";
+import { addProduct, getPreSignedURL, uploadFile } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 const SellerForm: React.FC = () => {
@@ -16,23 +16,22 @@ const SellerForm: React.FC = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState("");
+  const [fileToUpload, setFileToUpload] = useState<File>();
 
   const handleChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({
-          ...formData,
-          image: reader.result?.toString().split(",")[1] || "",
-        });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+    setFileToUpload(file);
+    try {
+      const response = await getPreSignedURL(file?.name, file?.type);
+      setImageUrl(response?.url);
+    } catch (err) {
+      console.error("Error uploading file", err);
     }
   };
 
@@ -49,10 +48,31 @@ const SellerForm: React.FC = () => {
       setError("Please fill in all fields");
       return;
     }
-    await addProduct(formData);
-    setSuccess("Product added successfully!");
-    navigate("/shome");
-    console.log("Submitted Product:", formData);
+
+    try {
+      let finalImageUrl = "";
+      if (fileToUpload && imageUrl) {
+        // Upload the file to the pre-signed URL
+        await uploadFile(imageUrl, fileToUpload);
+
+       
+        const bucketName = import.meta.env.VITE_S3_BUCKET_NAME;
+        const fileKey = fileToUpload.name; 
+        finalImageUrl = `https://${bucketName}.s3.amazonaws.com/${fileKey}`;
+      }
+
+     
+      const formWithImage = { ...formData, image: finalImageUrl };
+      console.log("Final Product Data:", formWithImage);
+
+     
+      await addProduct(formWithImage);
+      setSuccess("Product added successfully!");
+      navigate("/shome");
+    } catch (err) {
+      console.error("Error during form submission:", err);
+      setError("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -65,7 +85,11 @@ const SellerForm: React.FC = () => {
           Fill out the form below to list a product.
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="mt-6 space-y-6"
+        >
           {/* Product Name */}
           <div>
             <label
@@ -193,7 +217,6 @@ const SellerForm: React.FC = () => {
             />
           </div>
 
-          {/* Image Upload */}
           <div>
             <label
               htmlFor="image"
