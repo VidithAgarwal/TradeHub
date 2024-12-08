@@ -1,72 +1,86 @@
 import React, { useState, useEffect } from "react";
-import { getProducts } from "../../services/api"; 
+import { getProducts } from "../../services/api";
 import { Link } from "react-router-dom";
 
 const BuyerHome = () => {
   const [products, setProducts] = useState<any[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<any[]>([]); 
-  const [categories, setCategories] = useState<string[]>([]); 
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true); 
-  const [selectedCategory, setSelectedCategory] = useState<string>(""); 
-  const [priceRange, setPriceRange] = useState<number>(1000); 
-  const [sortBy, setSortBy] = useState<string>(""); 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [priceRange, setPriceRange] = useState<number>(1000);
+  const [sortBy, setSortBy] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>(""); 
 
   const fetchProducts = async () => {
     try {
-      const response = await getProducts(); 
-      setProducts(response || []); 
-      setFilteredProducts(response || []); 
+      const response = await getProducts();
+      setProducts(response || []);
+      setFilteredProducts(response || []);
 
-      // Extract unique categories
       const uniqueCategories = Array.from(
         new Set(response.map((product: any) => product.category))
       );
       setCategories(uniqueCategories);
 
-      setError(""); 
+      setError("");
     } catch (err) {
       setError("Failed to load products. Please try again.");
       console.error("Error fetching products:", err);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
     setSelectedCategory(category);
-    applyFilters(category, priceRange, sortBy);
+    applyFilters(category, priceRange, sortBy, searchQuery);
   };
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const range = Number(event.target.value);
     setPriceRange(range);
-    applyFilters(selectedCategory, range, sortBy);
+    applyFilters(selectedCategory, range, sortBy, searchQuery);
   };
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const sortOption = event.target.value;
     setSortBy(sortOption);
-    applyFilters(selectedCategory, priceRange, sortOption);
+    applyFilters(selectedCategory, priceRange, sortOption, searchQuery);
   };
 
-  const applyFilters = (category: string, range: number, sortOption: string) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+    applyFilters(selectedCategory, priceRange, sortBy, query);
+  };
+
+  const applyFilters = (
+    category: string,
+    range: number,
+    sortOption: string,
+    query: string
+  ) => {
     let filtered = products;
 
-    // Filter by category
     if (category) {
       filtered = filtered.filter((product: any) => product.category === category);
     }
 
-    // Filter by price range
     filtered = filtered.filter((product: any) => product.price <= range);
 
-    // Sort by price
     if (sortOption === "price-asc") {
       filtered = filtered.sort((a: any, b: any) => a.price - b.price);
     } else if (sortOption === "price-desc") {
       filtered = filtered.sort((a: any, b: any) => b.price - a.price);
+    }
+
+    if (query) {
+      filtered = filtered.filter((product: any) =>
+        product.name.toLowerCase().includes(query)
+      );
     }
 
     setFilteredProducts(filtered);
@@ -82,6 +96,8 @@ const BuyerHome = () => {
         <input
           type="text"
           placeholder="Search for products..."
+          value={searchQuery}
+          onChange={handleSearchChange}
           className="w-2/3 md:w-1/2 lg:w-1/3 px-4 py-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -143,11 +159,11 @@ const BuyerHome = () => {
           ) : filteredProducts.length > 0 ? (
             filteredProducts.map((product: any) => (
               <div
-                key={product._id} 
+                key={product._id}
                 className="bg-white rounded-lg shadow hover:shadow-lg p-4 transition"
               >
                 <img
-                  src={product.image} 
+                  src={product.image}
                   alt={product.name}
                   className="h-32 w-full object-cover rounded-t-lg"
                 />
