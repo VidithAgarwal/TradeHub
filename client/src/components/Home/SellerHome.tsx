@@ -62,7 +62,7 @@ const SellerHome = () => {
                   <a
                     href={item?.buyer?.profileLink}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener no referrer"
                     className="text-blue-500 underline hover:text-blue-700"
                   >
                     {item?.buyer?.name}
