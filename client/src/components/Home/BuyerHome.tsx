@@ -5,19 +5,26 @@ import { Link } from "react-router-dom";
 const BuyerHome = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]); 
+  const [categories, setCategories] = useState<string[]>([]); 
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true); 
   const [selectedCategory, setSelectedCategory] = useState<string>(""); 
   const [priceRange, setPriceRange] = useState<number>(1000); 
   const [sortBy, setSortBy] = useState<string>(""); 
 
-  
   const fetchProducts = async () => {
     try {
       const response = await getProducts(); 
       setProducts(response || []); 
       setFilteredProducts(response || []); 
-      setError(""); // Clear any previous errors
+
+      // Extract unique categories
+      const uniqueCategories = Array.from(
+        new Set(response.map((product: any) => product.category))
+      );
+      setCategories(uniqueCategories);
+
+      setError(""); 
     } catch (err) {
       setError("Failed to load products. Please try again.");
       console.error("Error fetching products:", err);
@@ -26,40 +33,36 @@ const BuyerHome = () => {
     }
   };
 
-  
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
     setSelectedCategory(category);
     applyFilters(category, priceRange, sortBy);
   };
 
-  
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const range = Number(event.target.value);
     setPriceRange(range);
     applyFilters(selectedCategory, range, sortBy);
   };
 
-  
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const sortOption = event.target.value;
     setSortBy(sortOption);
     applyFilters(selectedCategory, priceRange, sortOption);
   };
 
-  
   const applyFilters = (category: string, range: number, sortOption: string) => {
     let filtered = products;
 
-    
+    // Filter by category
     if (category) {
       filtered = filtered.filter((product: any) => product.category === category);
     }
 
-    
+    // Filter by price range
     filtered = filtered.filter((product: any) => product.price <= range);
 
-    
+    // Sort by price
     if (sortOption === "price-asc") {
       filtered = filtered.sort((a: any, b: any) => a.price - b.price);
     } else if (sortOption === "price-desc") {
@@ -84,7 +87,6 @@ const BuyerHome = () => {
       </div>
 
       <div className="flex space-x-5">
-        {/* Sidebar for Filters */}
         <aside className="w-1/4 hidden lg:block bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Filters</h2>
 
@@ -111,13 +113,11 @@ const BuyerHome = () => {
               className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">All Categories</option>
-              <option value="Furniture">Furniture</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Clothing">Clothing</option>
-              <option value="Vehicle">Vehicle</option>
-              <option value="home-goods">Home Goods</option>
-              <option value="toys-and-games">Toys and Games</option>
-              
+              {categories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -135,7 +135,6 @@ const BuyerHome = () => {
           </div>
         </aside>
 
-        {/* Main Product Listing */}
         <main className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {loading ? (
             <p className="text-center text-gray-500">Loading products...</p>
@@ -144,11 +143,11 @@ const BuyerHome = () => {
           ) : filteredProducts.length > 0 ? (
             filteredProducts.map((product: any) => (
               <div
-                key={product._id} // Assuming _id is the unique identifier
+                key={product._id} 
                 className="bg-white rounded-lg shadow hover:shadow-lg p-4 transition"
               >
                 <img
-                  src={product.image} // Using the image string from the API
+                  src={product.image} 
                   alt={product.name}
                   className="h-32 w-full object-cover rounded-t-lg"
                 />

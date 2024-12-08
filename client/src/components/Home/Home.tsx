@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getProducts } from "../../services/api";
 import { Link } from "react-router-dom";
+import productLinks from "../../../utils/productLinks"; 
 
 const Home = () => {
   const [products, setProducts] = useState<any[]>([]);
@@ -12,32 +12,29 @@ const Home = () => {
   const [priceRange, setPriceRange] = useState<number>(1000);
   const [sortBy, setSortBy] = useState<string>("");
 
+  
   const fetchProducts = async () => {
     try {
       const response = await fetch("https://dummyjson.com/products");
       const data = await response.json();
-      setProducts(data?.products);
-      setFilteredProducts(data?.products);
+
+      setProducts(data?.products || []);
+      setFilteredProducts(data?.products || []);
+
+      
+      const uniqueCategories = Array.from(
+        new Set(data?.products.map((product: any) => product.category))
+      );
+      setCategories(uniqueCategories);
     } catch (err) {
       console.error("Error fetching products:", err);
+      setError("Failed to load products.");
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch("https://dummyjson.com/products/categories");
-      const data = await response.json();
-      console.log(data);
-      setCategories(data);
-    } catch (err) {
-      console.error("Error fetching products:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  
   const handleCategoryChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -46,18 +43,21 @@ const Home = () => {
     applyFilters(category, priceRange, sortBy);
   };
 
+  
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const range = Number(event.target.value);
     setPriceRange(range);
     applyFilters(selectedCategory, range, sortBy);
   };
 
+  
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const sortOption = event.target.value;
     setSortBy(sortOption);
     applyFilters(selectedCategory, priceRange, sortOption);
   };
 
+  
   const applyFilters = (
     category: string,
     range: number,
@@ -65,14 +65,17 @@ const Home = () => {
   ) => {
     let filtered = products;
 
-    if (category) {
+    
+    if (category && category !== "All Categories") {
       filtered = filtered.filter(
         (product: any) => product.category === category
       );
     }
 
+   
     filtered = filtered.filter((product: any) => product.price <= range);
 
+    // Sort by price
     if (sortOption === "price-asc") {
       filtered = filtered.sort((a: any, b: any) => a.price - b.price);
     } else if (sortOption === "price-desc") {
@@ -82,9 +85,18 @@ const Home = () => {
     setFilteredProducts(filtered);
   };
 
+  
+  const handleProductClick = (id: number) => {
+    const url = productLinks[id]; 
+    if (url) {
+      window.open(url, "_blank"); 
+    } else {
+      alert("No external link available for this product.");
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
-    fetchCategories();
   }, []);
 
   return (
@@ -125,13 +137,12 @@ const Home = () => {
               onChange={handleCategoryChange}
               className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="">All Categories</option>
-              <option value="Furniture">Furniture</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Clothing">Clothing</option>
-              <option value="Vehicle">Vehicle</option>
-              <option value="home-goods">Home Goods</option>
-              <option value="toys-and-games">Toys and Games</option>
+              <option value="All Categories">All Categories</option>
+              {categories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -158,7 +169,8 @@ const Home = () => {
             filteredProducts.map((product: any) => (
               <div
                 key={product.id}
-                className="bg-white rounded-lg shadow hover:shadow-lg p-4 transition"
+                onClick={() => handleProductClick(product.id)} 
+                className="bg-white rounded-lg shadow hover:shadow-lg p-4 transition cursor-pointer"
               >
                 <img
                   src={product.thumbnail}
@@ -169,16 +181,7 @@ const Home = () => {
                   <h3 className="text-lg font-bold">{product.title}</h3>
                   <p className="text-gray-600">${product.price.toFixed(2)}</p>
                   <p className="text-sm text-gray-500">
-                    Location: {product.location}
-                  </p>
-                  <p className="text-sm text-blue-600 mt-2">
-                    Sold By:{" "}
-                    <Link
-                      to={`/seller/${product?.seller?._id}`}
-                      className="underline"
-                    >
-                      {product?.seller?.name}
-                    </Link>
+                    Category: {product.category}
                   </p>
                 </div>
               </div>
