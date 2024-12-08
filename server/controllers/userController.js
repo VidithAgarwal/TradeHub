@@ -101,29 +101,20 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     });
   });
 
-  import User from "../models/userSchema.js";
-import Product from "../models/productSchema.js";
-import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
-
-// Get list of all sellers and buyers with their products
-export const getAllUsersWithProducts = catchAsyncErrors(async (req, res, next) => {
-  const sellers = await User.find({ role: "seller" }).lean();
-  for (const seller of sellers) {
-    const soldProducts = await Product.find({ seller: seller._id });
-    seller.soldProducts = soldProducts;
-  }
-
-  const buyers = await User.find({ role: "buyer" })
-    .populate("purchasedProducts")
-    .lean();
-
-  res.status(200).json({
-    success: true,
-    data: {
-      sellers,
-      buyers,
-    },
+  export const getAllUsersWithProducts = catchAsyncErrors(async (req, res, next) => {
+    const sellers = await User.find({ role: "seller" }).lean();
+    for (const seller of sellers) {
+      const soldProducts = await Product.find({ seller: seller._id });
+      seller.soldProducts = soldProducts;
+    }
+    const buyers = await User.find({ role: "buyer" })
+      .populate("purchasedProducts")
+      .lean();
+    res.status(200).json({
+      success: true,
+      data: {
+        sellers,
+        buyers,
+      },
+    });
   });
-});
-
-  
