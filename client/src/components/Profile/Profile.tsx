@@ -190,7 +190,7 @@ const Profile = () => {
                     <p className="text-gray-600">Price: ${product.price}</p>
                     <p className="text-sm text-gray-500 mt-2">
                       {userRole === "buyer"
-                        ? `Sold by: ${product?.sellerDetails?.name}`
+                        ? `Sold by: ${product?.seller?.name}`
                         : product.sold
                         ? `Sold to: ${product?.buyerDetails?.name}`
                         : "Available"}
