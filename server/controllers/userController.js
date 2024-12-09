@@ -103,6 +103,9 @@ export const register = catchAsyncErrors(async (req, res, next) => {
   });
 
   export const getAllUsersWithProducts = catchAsyncErrors(async (req, res, next) => {
+    if (req.user.role !== "admin") {
+      return next(new ErrorHandler("Only admin can access this route", 403));
+    }
     const sellers = await User.find({ role: "seller" }).lean();
     for (const seller of sellers) {
       const soldProducts = await Product.find({ seller: seller._id });
