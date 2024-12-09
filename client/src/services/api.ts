@@ -99,7 +99,7 @@ export const updateProfile = async (
 
 export const deleteProduct = async (productId: string): Promise<any> => {
   const token = localStorage.getItem("token");
-  const response = await productAPI.delete(`/delete/${productId}`, {
+  const response = await productAPI.delete(`/${productId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -107,3 +107,19 @@ export const deleteProduct = async (productId: string): Promise<any> => {
 
   return response.data;
 };
+
+
+export const getProductsBySeller = async (userId: string): Promise<any> => {
+  const response = await userAPI.post('/products-created', { userId });
+  return response.data;
+};
+
+export const getProductById = async (productId: string): Promise<any> => {
+  const response = await productAPI.get(`/${productId}`);
+  return response.data;
+}
+
+export const updateProduct = async (productId: string, data: any): Promise<any> => {
+  const response = await productAPI.put(`/${productId}`, data);
+  return response.data;
+}

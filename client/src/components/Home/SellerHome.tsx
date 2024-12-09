@@ -1,13 +1,19 @@
 import { useState, useEffect } from "react";
-import { getProducts, deleteProduct } from "../../services/api";
-
+import {
+  getProducts,
+  deleteProduct,
+  getProductsBySeller,
+} from "../../services/api";
+import { useNavigate } from "react-router-dom";
 const SellerHome = () => {
   const [itemsForSale, setItemsForSale] = useState([]);
+  const navigate = useNavigate();
+  
   const fetchItems = async () => {
+    const userId = localStorage.getItem("id");
     try {
-      const response = await getProducts();
-      setItemsForSale(response);
-      console.log(response);
+      const response = await getProductsBySeller(userId);
+      setItemsForSale(response?.products);
     } catch (error) {
       console.error(error);
     }
@@ -18,7 +24,6 @@ const SellerHome = () => {
   }, []);
 
   const handleDelete = async (productId) => {
-    console.log(productId);
     await deleteProduct(productId);
     fetchItems();
   };
@@ -82,13 +87,12 @@ const SellerHome = () => {
                 </span>
               )}
               <div className="flex justify-between mt-4">
-                {/* Edit Button */}
-                <a
-                  href={`/seller/edit/${item?._id}`}
+                <button
+                  onClick={() => navigate(`/seller/edit/${item._id}`)}
                   className="flex-1 text-center text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg mr-2 transition-all"
                 >
                   Edit
-                </a>
+                </button>
 
                 <button
                   onClick={() => handleDelete(item?._id, item?.seller?._id)} // Replace with delete logic

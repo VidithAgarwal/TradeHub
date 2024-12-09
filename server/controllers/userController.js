@@ -2,6 +2,7 @@ import User from "../models/userSchema.js";
 import ErrorHandler from "../middlewares/errorHandler.js";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import sendToken from "../utils/sendAuthToken.js";
+import Product from "../models/productSchema.js";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
     const { name, email, phone, password, role } = req.body;
@@ -116,5 +117,39 @@ export const register = catchAsyncErrors(async (req, res, next) => {
         sellers,
         buyers,
       },
+    });
+  });
+
+  export const getProductsBoughtByUser = catchAsyncErrors(async (req, res, next) => {
+    const { userId } = req.body;
+  
+    if (!userId) {
+      return next(new ErrorHandler("User ID is required", 400));
+    }
+  
+    const user = await User.findById(userId).populate("purchasedProducts");
+  
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+  
+    res.status(200).json({
+      success: true,
+      products: user.purchasedProducts,
+    });
+  });
+
+  export const getProductsCreatedBySeller = catchAsyncErrors(async (req, res, next) => {
+    const { userId } = req.body;
+  
+    if (!userId) {
+      return next(new ErrorHandler("User ID is required", 400));
+    }
+  
+    const products = await Product.find({ seller: userId });
+  
+    res.status(200).json({
+      success: true,
+      products,
     });
   });

@@ -1,6 +1,7 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Product from "../models/productSchema.js";
 import ErrorHandler from "../middlewares/errorHandler.js";
+import User from "../models/userSchema.js";
 import { s3 } from "../server.js";
 // Create a product
 export const createProduct = catchAsyncErrors(async (req, res, next) => {
@@ -127,4 +128,40 @@ export const deleteProduct = catchAsyncErrors(async (req, res, next) => {
 
   await product.deleteOne();
   res.status(200).json({ message: "Product deleted successfully" });
+});
+
+export const buyProduct = catchAsyncErrors(async (req, res, next) => {
+  const { productId } = req.body;
+
+  if (!productId) {
+    return next(new ErrorHandler("Product ID is required", 400));
+  }
+
+  const product = await Product.findById(productId);
+
+  if (!product) {
+    return next(new ErrorHandler("Product not found", 404));
+  }
+
+  if (product.sold) {
+    return next(new ErrorHandler("Product is already sold", 400));
+  }
+
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  user.purchasedProducts.push(product._id);
+  await user.save();
+
+  product.sold = true;
+  await product.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Product purchased successfully",
+    product,
+  });
 });
