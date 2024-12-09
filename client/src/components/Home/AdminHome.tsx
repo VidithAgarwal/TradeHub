@@ -13,16 +13,16 @@ const AdminHome = () => {
         throw new Error("User is not authenticated");
       }
 
-      console.log("Token being sent:", token);
 
       const response = await fetch(
-        "http://localhost:5001/api/users/get-users-with-products",
+        "http://localhost:5000/api/user/get-users-with-products",
         {
-          method: "PUT",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          credentials: "include"
         }
       );
 
