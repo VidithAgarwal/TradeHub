@@ -39,7 +39,11 @@ const LoginPage: React.FC<LoginPageProps> = ({onLogin}) => {
         setSuccess("");
         if (response?.user?.role === "buyer") {
           navigate("/bhome");
-        } else {
+        } 
+        else if(response?.user?.role === "admin"){
+          navigate("/adminhome");
+        }
+        else {
           navigate("/shome");
         }
         onLogin(response?.token);
