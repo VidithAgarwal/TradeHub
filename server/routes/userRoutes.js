@@ -1,5 +1,5 @@
 import express from "express";
-import { login, register, logout, getUser, getUserById, updateUserProfile, getAllUsersWithProducts, getProductsBoughtByUser, getProductsCreatedBySeller } from "../controllers/userController.js";
+import { login, register, logout, getUser, getUserById, updateUserProfile, getAllUsersWithProducts, getProductsBoughtByUser, getProductsCreatedBySeller, deleteUser } from "../controllers/userController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
@@ -13,5 +13,6 @@ router.get("/get-users-with-products", isAuthenticated, getAllUsersWithProducts)
 router.post("/products-bought", isAuthenticated, getProductsBoughtByUser);
 router.post("/products-created", isAuthenticated, getProductsCreatedBySeller);
 router.get("/:id", isAuthenticated, getUserById);
+router.get("/delete/:id", isAuthenticated, deleteUser);
 
 export default router;

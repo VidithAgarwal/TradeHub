@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { loginUser } from "../services/api"; // Import login API
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../utils/userSlice";
 
@@ -139,6 +139,15 @@ const LoginPage: React.FC<LoginPageProps> = ({onLogin}) => {
             </div>
           </div>
         )}
+        <p className="mt-4 text-center text-gray-600">
+          Not a user?{" "}
+          <Link
+            to="/signup"
+            className="text-blue-500 hover:underline hover:text-blue-600"
+          >
+            Sign up here
+          </Link>
+        </p>
       </div>
     </div>
   );
