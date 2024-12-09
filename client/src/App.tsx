@@ -57,13 +57,14 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/aboutus" element={<AboutUs />} />
 
             <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/seller" element={<SellerForm />} />
               <Route path="/shome" element={<SellerHome />} />
               <Route path="/bhome" element={<BuyerHome />} />
-              <Route path="/aboutus" element={<AboutUs />} />
+              
               <Route path ="adminhome" element={<AdminHome/>}/>
 
 
