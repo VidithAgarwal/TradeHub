@@ -182,17 +182,11 @@ const BuyerHome = () => {
                 <div className="mt-4">
                   <h3 className="text-lg font-bold">{product.name}</h3>
                   <p className="text-gray-600">${product.price.toFixed(2)}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 mt-3">
                     Location: {product.location}
                   </p>
-                  <p className="text-sm text-blue-600 mt-2">
-                    Sold By:{" "}
-                    <Link
-                      to={`/seller/${product.seller._id}`}
-                      className="underline"
-                    >
-                      {product.seller.name}
-                    </Link>
+                  <p className="text-sm text-gray-500 mt-3">
+                    Description : {product.description}
                   </p>
                 </div>
               </div>
