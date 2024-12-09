@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../utils/userSlice";
 
-const LoginPage: React.FC = () => {
+type LoginPageProps = {
+  onLogin: (token: string) => void;
+};
+
+const LoginPage: React.FC<LoginPageProps> = ({onLogin}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -42,6 +46,7 @@ const LoginPage: React.FC = () => {
         else {
           navigate("/shome");
         }
+        onLogin(response?.token);
       }, 2000);
     } catch (err: any) {
       setError(err.message || "Invalid credentials.");

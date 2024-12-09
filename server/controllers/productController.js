@@ -157,6 +157,7 @@ export const buyProduct = catchAsyncErrors(async (req, res, next) => {
   await user.save();
 
   product.sold = true;
+  product.buyer = user._id;
   await product.save();
 
   res.status(200).json({

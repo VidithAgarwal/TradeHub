@@ -36,7 +36,17 @@ function App() {
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, []);
+  }, [isAuthenticated]);
+
+  const handleLogin = (token: string): void => {
+    localStorage.setItem("token", token);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = (): void => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+  };
 
   useEffect(() => {
     const checkServerConnection = async () => {
@@ -55,12 +65,12 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
       <Router>
-        <Navbar />
+        <Navbar onLogout={handleLogout} />
         <div>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage onSignup={handleLogin} />} />
+            <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
             <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/aboutus" element={<AboutUs />} />

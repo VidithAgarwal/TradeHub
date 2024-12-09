@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { registerUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
-const SignUpPage: React.FC = () => {
+type SignupPageProp = {
+  onSignup: (token: string) => void;
+};
+
+const SignUpPage: React.FC<SignupPageProp> = ({ onSignup }) => {
   const [formData, setFormData] = useState({
     role: "",
     name: "",
@@ -30,6 +34,7 @@ const SignUpPage: React.FC = () => {
       console.log("User registered:", response);
       localStorage.setItem("token", response?.token);
       localStorage.setItem("role", response?.user?.role);
+      onSignup(response?.token);
       if (response?.user?.role === "buyer") {
         navigate("/bhome");
       } else {
