@@ -134,14 +134,14 @@ const Navbar: React.FC<LogoutPageProps>= ({onLogout}) => {
                   Login
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/signup"
                   className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
                 >
                   SignUp
                 </Link>
-              </li>
+              </li> */}
             </>
           )}
         </ul>
