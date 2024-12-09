@@ -66,10 +66,10 @@ function App() {
             <Route path="/aboutus" element={<AboutUs />} />
 
             <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-              <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/seller" element={<SellerForm />} />
               <Route path="/shome" element={<SellerHome />} />
               <Route path="/bhome" element={<BuyerHome />} />
+              <Route path = "/bhome/:id" element = {<ProductPage />} />
               <Route path="/seller/edit/:id" element={<EditProduct />} />{" "}
               <Route path="adminhome" element={<AdminHome />} />
               <Route path="/profile" element={<Profile />} />

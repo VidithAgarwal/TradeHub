@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { getUserOrders } from "../services/api";
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState<any[]>([
     {
@@ -14,10 +14,18 @@ const Cart = () => {
       image: "https://via.placeholder.com/150",
       price: 15.49,
     },
-  ]); 
+  ]);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  const getProducts = async () => {
+    const userId = localStorage.getItem("id");
+    const data = await getUserOrders(userId);
+    setCartProducts(data?.products);
+  };
+  useEffect(() => {
+    getProducts();
+  }, []);
   return (
     <div className="container mx-auto px-6 py-5 min-h-screen">
       <div className="text-center mb-8">
@@ -48,7 +56,9 @@ const Cart = () => {
                 className="h-20 w-20 object-cover rounded-lg mr-6"
               />
               <div>
-                <h3 className="text-lg font-bold text-gray-800">{product.name}</h3>
+                <h3 className="text-lg font-bold text-gray-800">
+                  {product.name}
+                </h3>
                 <p className="text-gray-600 font-medium">
                   ${product.price.toFixed(2)}
                 </p>

@@ -108,18 +108,30 @@ export const deleteProduct = async (productId: string): Promise<any> => {
   return response.data;
 };
 
-
 export const getProductsBySeller = async (userId: string): Promise<any> => {
-  const response = await userAPI.post('/products-created', { userId });
+  const response = await userAPI.post("/products-created", { userId });
   return response.data;
 };
 
 export const getProductById = async (productId: string): Promise<any> => {
   const response = await productAPI.get(`/${productId}`);
   return response.data;
-}
+};
 
-export const updateProduct = async (productId: string, data: any): Promise<any> => {
+export const updateProduct = async (
+  productId: string,
+  data: any
+): Promise<any> => {
   const response = await productAPI.put(`/${productId}`, data);
+  return response.data;
+};
+
+export const buyProduct = async (productId: string): Promise<any> => {
+  const response = await productAPI.post("/buy-product", { productId });
+  return response.data;
+};
+
+export const getUserOrders = async (userId: string): Promise<any> => {
+  const response = await userAPI.post("/products-bought", { userId });
   return response.data;
 }
