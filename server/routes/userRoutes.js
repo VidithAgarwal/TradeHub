@@ -8,10 +8,10 @@ router.post("/register", register);
 router.post("/login", login);
 router.get("/logout", isAuthenticated, logout);
 router.get("/getuser", isAuthenticated, getUser);
-router.get("/:id", isAuthenticated, getUserById);
 router.put("/update-profile/:id", isAuthenticated, updateUserProfile);
-router.put("/get-users-with-products", isAuthenticated, getAllUsersWithProducts);
+router.get("/get-users-with-products", isAuthenticated, getAllUsersWithProducts);
 router.post("/products-bought", isAuthenticated, getProductsBoughtByUser);
 router.post("/products-created", isAuthenticated, getProductsCreatedBySeller);
+router.get("/:id", isAuthenticated, getUserById);
 
 export default router;
