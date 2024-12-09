@@ -17,10 +17,10 @@ router.post("/createProduct", isAuthenticated, createProduct);
 router.get("/", isAuthenticated,getAllProducts);
 router.get("/search", isAuthenticated,findProductByName);
 router.get("/get-presigned-url", isAuthenticated, getPresignedUrl);
+router.post("/buy-product", isAuthenticated, buyProduct);
 router.put("/:id", isAuthenticated, updateProduct);
 router.get("/:id", isAuthenticated,getProductById);
 router.delete("/:id", isAuthenticated, deleteProduct);
-router.post("/buy-product", isAuthenticated, buyProduct);
 
 
 

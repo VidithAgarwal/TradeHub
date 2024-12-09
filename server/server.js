@@ -27,14 +27,14 @@ app.use(express.json({ limit: '150mb' }));
 
 app.use(
     cors({
-      origin: "http://localhost:5173",
+      origin: process.env.CLIENT_URL,
       method: ["GET", "POST", "DELETE", "PUT"],
       credentials: true,
     })
   );
 
 app.options('*', cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     credentials: true,
 }));
 

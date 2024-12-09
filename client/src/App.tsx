@@ -27,8 +27,16 @@ function App() {
   );
 
   useEffect(() => {
-    setIsAuthenticated(localStorage.getItem("token") !== null);
-  }, [isAuthenticated]);
+    const handleStorageChange = () => {
+      setIsAuthenticated(localStorage.getItem("token") !== null);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   useEffect(() => {
     const checkServerConnection = async () => {
@@ -43,10 +51,6 @@ function App() {
 
     checkServerConnection();
   }, []);
-
-  useEffect(() => {
-    setIsAuthenticated(localStorage.getItem("token") !== null);
-  }, [isAuthenticated]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
