@@ -8,7 +8,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  console.log(token)
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -16,6 +15,7 @@ const Navbar = () => {
     navigate("/");
   };
 
+  console.log(userRole)
   return (
     <div className="container mx-auto px-6 py-5">
       <nav className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 px-6 rounded-lg">
@@ -72,7 +72,6 @@ const Navbar = () => {
             </Link>
           </li>
 
-          {/* Role-based Navigation */}
           {userRole === "seller" && (
             <Link
               to="/addProduct"
