@@ -148,8 +148,16 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     if (!userId) {
       return next(new ErrorHandler("User ID is required", 400));
     }
+
+
   
-    const products = await Product.find({ seller: userId });
+    const products = await Product.find({ seller: userId }).lean();
+    
+    for (const product of products) {
+      const buyer = await User.findById(product.buyer).lean();
+      product.buyerDetails = buyer;
+    }
+    console.log(products)
   
     res.status(200).json({
       success: true,

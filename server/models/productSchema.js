@@ -37,6 +37,12 @@ const ProductSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Seller information is required"],
     },
+    buyer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [false, "Seller information is notrequired"],
+      default: null
+    },
     sold: { 
       type: Boolean, 
       default: false 
