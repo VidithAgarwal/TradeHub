@@ -132,7 +132,7 @@ export const deleteProduct = catchAsyncErrors(async (req, res, next) => {
 
 export const buyProduct = catchAsyncErrors(async (req, res, next) => {
   const { productId } = req.body;
-
+  
   if (!productId) {
     return next(new ErrorHandler("Product ID is required", 400));
   }
