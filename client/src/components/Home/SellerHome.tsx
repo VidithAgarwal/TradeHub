@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const SellerHome = () => {
   const [itemsForSale, setItemsForSale] = useState([]);
   const navigate = useNavigate();
-  
+
   const fetchItems = async () => {
     const userId = localStorage.getItem("id");
     try {
@@ -89,13 +89,18 @@ const SellerHome = () => {
               <div className="flex justify-between mt-4">
                 <button
                   onClick={() => navigate(`/seller/edit/${item._id}`)}
-                  className="flex-1 text-center text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg mr-2 transition-all"
+                  disabled={item.sold}
+                  className={`flex-1 text-center px-4 py-2 rounded-lg transition-all ${
+                    item.sold
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "text-white bg-red-500 hover:bg-red-600"
+                  }`}
                 >
                   Edit
                 </button>
 
                 <button
-                  onClick={() => handleDelete(item?._id, item?.seller?._id)} // Replace with delete logic
+                  onClick={() => handleDelete(item?._id, item?.seller?._id)}
                   disabled={item.sold}
                   className={`flex-1 text-center px-4 py-2 rounded-lg transition-all ${
                     item.sold

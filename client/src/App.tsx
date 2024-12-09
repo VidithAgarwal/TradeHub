@@ -71,7 +71,7 @@ function App() {
               <Route path="/bhome" element={<BuyerHome />} />
               <Route path = "/bhome/:id" element = {<ProductPage />} />
               <Route path="/seller/edit/:id" element={<EditProduct />} />{" "}
-              <Route path="adminhome" element={<AdminHome />} />
+              <Route path="/adminhome" element={<AdminHome />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/addProduct" element={<SellerForm />} />
             </Route>

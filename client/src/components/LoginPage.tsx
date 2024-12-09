@@ -35,7 +35,11 @@ const LoginPage: React.FC = () => {
         setSuccess("");
         if (response?.user?.role === "buyer") {
           navigate("/bhome");
-        } else {
+        } 
+        else if(response?.user?.role === "admin"){
+          navigate("/adminhome");
+        }
+        else {
           navigate("/shome");
         }
       }, 2000);
