@@ -153,8 +153,8 @@ const EditProduct = () => {
             Save Changes
           </button>
           <button
-            type="submit"
-            onClick={() => navigate(-1)}
+            type="button"
+            onClick={() => navigate("/shome")}
             className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-indigo-600 hover:bg-white hover:text-indigo-600 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300"
           >
             Cancel Changes

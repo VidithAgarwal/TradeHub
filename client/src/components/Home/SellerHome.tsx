@@ -36,6 +36,7 @@ const SellerHome = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 mt-10">
         {itemsForSale.map((item) => {
+          console.log(item);
           return (
             <div
               key={item?._id}
@@ -70,7 +71,7 @@ const SellerHome = () => {
               </p>
               {item.sold && (
                 <p className="text-gray-600 text-sm mb-4">
-                  Buyer:{" "}
+                  Buyer:{item?.buyerDetails?.name}
                   <a
                     href={item?.buyer?.profileLink}
                     target="_blank"
