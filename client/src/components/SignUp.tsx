@@ -42,7 +42,7 @@ const SignUpPage: React.FC<SignupPageProp> = ({ onSignup }) => {
         navigate("/shome");
       }
     } catch (err: any) {
-      setError(err.message || "Something went wrong"); // Show error message
+      setError(err.message || "Something went wrong");
     }
   };
 
