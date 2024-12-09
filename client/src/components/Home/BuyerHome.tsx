@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getProducts } from "../../services/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const BuyerHome = () => {
   const [products, setProducts] = useState<any[]>([]);
@@ -11,13 +11,16 @@ const BuyerHome = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [priceRange, setPriceRange] = useState<number>(1000);
   const [sortBy, setSortBy] = useState<string>("");
-  const [searchQuery, setSearchQuery] = useState<string>(""); 
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
       const response = await getProducts();
-      setProducts(response || []);
-      setFilteredProducts(response || []);
+      setProducts(response.filter((product: any) => product.sold === false));
+      setFilteredProducts(
+        response.filter((product: any) => product.sold === false)
+      );
 
       const uniqueCategories = Array.from(
         new Set(response.map((product: any) => product.category))
@@ -33,7 +36,9 @@ const BuyerHome = () => {
     }
   };
 
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCategoryChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const category = event.target.value;
     setSelectedCategory(category);
     applyFilters(category, priceRange, sortBy, searchQuery);
@@ -66,7 +71,9 @@ const BuyerHome = () => {
     let filtered = products;
 
     if (category) {
-      filtered = filtered.filter((product: any) => product.category === category);
+      filtered = filtered.filter(
+        (product: any) => product.category === category
+      );
     }
 
     filtered = filtered.filter((product: any) => product.price <= range);
@@ -122,7 +129,9 @@ const BuyerHome = () => {
           </div>
 
           <div className="mb-6">
-            <h3 className="text-lg font-medium text-gray-700 mb-2">Categories</h3>
+            <h3 className="text-lg font-medium text-gray-700 mb-2">
+              Categories
+            </h3>
             <select
               value={selectedCategory}
               onChange={handleCategoryChange}
@@ -161,6 +170,9 @@ const BuyerHome = () => {
               <div
                 key={product._id}
                 className="bg-white rounded-lg shadow hover:shadow-lg p-4 transition"
+                onClick={() =>
+                  navigate(`/bhome/${product._id}`, { state: product })
+                }
               >
                 <img
                   src={product.image}
@@ -170,10 +182,15 @@ const BuyerHome = () => {
                 <div className="mt-4">
                   <h3 className="text-lg font-bold">{product.name}</h3>
                   <p className="text-gray-600">${product.price.toFixed(2)}</p>
-                  <p className="text-sm text-gray-500">Location: {product.location}</p>
+                  <p className="text-sm text-gray-500">
+                    Location: {product.location}
+                  </p>
                   <p className="text-sm text-blue-600 mt-2">
                     Sold By:{" "}
-                    <Link to={`/seller/${product.seller._id}`} className="underline">
+                    <Link
+                      to={`/seller/${product.seller._id}`}
+                      className="underline"
+                    >
                       {product.seller.name}
                     </Link>
                   </p>
