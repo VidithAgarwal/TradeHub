@@ -1,55 +1,95 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import axios from 'axios'
+import { useEffect, useState } from "react";
+import Navbar from "./components/Navbar";
+import axios from "axios";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SignUpPage from "./components/SignUp";
+import LoginPage from "./components/LoginPage";
+import ProductPage from "./components/ProductPage";
+import SellerForm from "./components/SellerForm";
+import { Provider, useSelector, useDispatch } from "react-redux";
+import appStore from "../utils/store";
+import LandingPage from "./components/LandingPage";
+import Profile from "./components/Profile/Profile";
+import SellerHome from "./components/Home/SellerHome";
+import BuyerHome from "./components/Home/BuyerHome";
+import PrivateRoute from "./components/PrivateRoute";
+import Home from "./components/Home/Home";
+import Cart from "./components/Cart";
+import AboutUs from "./components/Aboutus";
+import EditProduct from "./components/Home/EditProduct";
+import AdminHome from "./components/Home/AdminHome";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState("");
 
-    useEffect(() => {
-        const checkServerConnection = async () => {
-            try {
-                const response = await axios.get('/');
-                setMessage(response.data); // Should set "API is running"
-            } catch (error) {
-                console.error('Error connecting to the server:', error);
-                setMessage('Failed to connect to the server');
-            }
-        };
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("token") !== null
+  );
 
-        checkServerConnection();
-    }, []);
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAuthenticated(localStorage.getItem("token") !== null);
+    };
 
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [isAuthenticated]);
+
+  const handleLogin = (token: string): void => {
+    localStorage.setItem("token", token);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = (): void => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+  };
+
+  useEffect(() => {
+    const checkServerConnection = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/");
+        setMessage(response.data);
+      } catch (error) {
+        console.error("Error connecting to the server:", error);
+        setMessage("Failed to connect to the server");
+      }
+    };
+
+    checkServerConnection();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <p className="read-the-docs">
-        {message}
-      </p>
-    </>
-  )
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
+      <Router>
+        <Navbar onLogout={handleLogout} />
+        <div>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/signup" element={<SignUpPage onSignup={handleLogin} />} />
+            <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/aboutus" element={<AboutUs />} />
+
+            <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
+              <Route path="/seller" element={<SellerForm />} />
+              <Route path="/shome" element={<SellerHome />} />
+              <Route path="/bhome" element={<BuyerHome />} />
+              <Route path = "/bhome/:id" element = {<ProductPage />} />
+              <Route path="/seller/edit/:id" element={<EditProduct />} />{" "}
+              <Route path="/adminhome" element={<AdminHome />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/addProduct" element={<SellerForm />} />
+            </Route>
+          </Routes>
+        </div>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
