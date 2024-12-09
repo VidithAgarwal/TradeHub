@@ -14,6 +14,8 @@ import SellerHome from "./components/Home/SellerHome";
 import BuyerHome from "./components/Home/BuyerHome";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./components/Home/Home";
+import Cart from "./components/Cart";
+import AboutUs from "./components/Aboutus";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -39,6 +41,10 @@ function App() {
     checkServerConnection();
   }, []);
 
+  useEffect(() => {
+    setIsAuthenticated(localStorage.getItem("token") !== null);
+  }, [isAuthenticated]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
       <Router>
@@ -49,12 +55,15 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
 
             <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/seller" element={<SellerForm />} />
               <Route path="/shome" element={<SellerHome />} />
               <Route path="/bhome" element={<BuyerHome />} />
+              <Route path="/aboutus" element={<AboutUs />} />
+
 
               <Route path="/profile" element={<Profile />} />
               <Route path="/addProduct" element={<SellerForm />} />

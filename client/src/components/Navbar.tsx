@@ -66,20 +66,27 @@ const Navbar = () => {
             >
               Features
             </Link>
-          </li>
-          {userRole === "seller" ? (
+            </li>
+          {userRole === "seller" && (
             <Link
               to="/addProduct"
               className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
             >
               Add Product
             </Link>
-          ) : (
-            <></>
           )}
+          {userRole === "buyer" && (
+            <Link
+              to="/cart"
+              className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
+            >
+              Orders
+            </Link>
+          )}
+          
           <li>
             <Link
-              to="#"
+              to="/aboutus"
               className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
             >
               About Us
