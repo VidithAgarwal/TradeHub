@@ -9,7 +9,7 @@ router.post("/login", login);
 router.get("/logout", isAuthenticated, logout);
 router.get("/getuser", isAuthenticated, getUser);
 router.get("/:id", isAuthenticated, getUserById);
-router.put("/update-profile", isAuthenticated, updateUserProfile);
+router.put("/update-profile/:id", isAuthenticated, updateUserProfile);
 router.put("/get-users-with-products", isAuthenticated, getAllUsersWithProducts);
 
 export default router;

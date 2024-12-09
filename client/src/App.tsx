@@ -17,13 +17,14 @@ import Home from "./components/Home/Home";
 
 function App() {
   const [message, setMessage] = useState("");
-  
+    
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("token") !== null
   );
-
-  console.log(isAuthenticated)
   
+  useEffect(() => {
+    setIsAuthenticated(localStorage.getItem("token") !== null);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const checkServerConnection = async () => {

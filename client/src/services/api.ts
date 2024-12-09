@@ -87,3 +87,23 @@ export const uploadFile = async (url: string, file: File): Promise<void> => {
     throw new Error("Failed to upload file to S3");
   }
 };
+
+export const updateProfile = async (
+  userId: string,
+  data: any
+): Promise<{ message: string }> => {
+  const response = await userAPI.put(`/update-profile/${userId}`, data);
+  console.log(response);
+  return response.data;
+};
+
+export const deleteProduct = async (productId: string): Promise<any> => {
+  const token = localStorage.getItem("token");
+  const response = await productAPI.delete(`/delete/${productId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { getProducts } from "../../services/api";
+import { getProducts, deleteProduct } from "../../services/api";
+
 const SellerHome = () => {
   const [itemsForSale, setItemsForSale] = useState([]);
   const fetchItems = async () => {
@@ -15,6 +16,12 @@ const SellerHome = () => {
   useEffect(() => {
     fetchItems();
   }, []);
+
+  const handleDelete = async (productId) => {
+    console.log(productId);
+    await deleteProduct(productId);
+    fetchItems();
+  };
 
   return (
     <div className="container mx-auto">
@@ -74,6 +81,27 @@ const SellerHome = () => {
                   Sold
                 </span>
               )}
+              <div className="flex justify-between mt-4">
+                {/* Edit Button */}
+                <a
+                  href={`/seller/edit/${item?._id}`}
+                  className="flex-1 text-center text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg mr-2 transition-all"
+                >
+                  Edit
+                </a>
+
+                <button
+                  onClick={() => handleDelete(item?._id, item?.seller?._id)} // Replace with delete logic
+                  disabled={item.sold}
+                  className={`flex-1 text-center px-4 py-2 rounded-lg transition-all ${
+                    item.sold
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "text-white bg-red-500 hover:bg-red-600"
+                  }`}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           );
         })}
