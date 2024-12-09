@@ -164,3 +164,28 @@ export const register = catchAsyncErrors(async (req, res, next) => {
       products,
     });
   });
+
+  export const deleteUser = catchAsyncErrors(async (req, res, next) => {
+    const { id } = req.params;
+    
+  
+    if (!id) {
+      return next(new ErrorHandler("User ID is required", 400));
+    }
+  
+    const user = await User.findByIdAndDelete(id);
+
+    if (req.user.role !== "admin") {
+      return next(new ErrorHandler("Only admin can access this route", 403));
+    }
+
+  
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+  
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  });
