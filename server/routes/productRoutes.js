@@ -7,7 +7,8 @@ import {
   deleteProduct,
   getProductById,
   getPresignedUrl,
-  uploadFile
+  uploadFile,
+  buyProduct
 } from "../controllers/productController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
@@ -21,6 +22,8 @@ router.post("/upload-file", isAuthenticated, uploadFile);
 router.put("/:id", isAuthenticated, updateProduct);
 router.get("/:id", isAuthenticated,getProductById);
 router.delete("/:id", isAuthenticated, deleteProduct);
+router.post("/buy-product", isAuthenticated, buyProduct);
+
 
 
 export default router;

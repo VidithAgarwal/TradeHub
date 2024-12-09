@@ -21,7 +21,7 @@ const ProductSchema = new mongoose.Schema(
     },
     quantity: {
       type: Number,
-      required: [false, "Quantity is required", ],
+      required: [false, "Quantity is required",],
       default: 1
     },
     description: {
@@ -36,6 +36,10 @@ const ProductSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "Seller information is required"],
+    },
+    sold: { 
+      type: Boolean, 
+      default: false 
     },
     createdAt: {
       type: Date,
