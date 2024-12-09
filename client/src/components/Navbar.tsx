@@ -60,13 +60,17 @@ const Navbar = () => {
                   ? "/bhome"
                   : userRole === "seller"
                   ? "/shome"
+                  : userRole === "admin"
+                  ? "/adminhome"
                   : "/home"
               }
               className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
             >
               Features
             </Link>
-            </li>
+          </li>
+
+          {/* Role-based Navigation */}
           {userRole === "seller" && (
             <Link
               to="/addProduct"
@@ -83,15 +87,17 @@ const Navbar = () => {
               Orders
             </Link>
           )}
-          
-          <li>
-            <Link
-              to="/aboutus"
-              className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
-            >
-              About Us
-            </Link>
-          </li>
+
+          {userRole !== "admin" && (
+            <li>
+              <Link
+                to="/aboutus"
+                className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
+              >
+                About Us
+              </Link>
+            </li>
+          )}
 
           {token ? (
             <>

@@ -16,6 +16,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Home from "./components/Home/Home";
 import Cart from "./components/Cart";
 import AboutUs from "./components/Aboutus";
+import AdminHome from "./components/Home/AdminHome";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -63,6 +64,7 @@ function App() {
               <Route path="/shome" element={<SellerHome />} />
               <Route path="/bhome" element={<BuyerHome />} />
               <Route path="/aboutus" element={<AboutUs />} />
+              <Route path ="adminhome" element={<AdminHome/>}/>
 
 
               <Route path="/profile" element={<Profile />} />
