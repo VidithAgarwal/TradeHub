@@ -16,17 +16,19 @@ import PrivateRoute from "./components/PrivateRoute";
 import Home from "./components/Home/Home";
 import Cart from "./components/Cart";
 import AboutUs from "./components/Aboutus";
+import EditProduct from "./components/Home/EditProduct";
 import AdminHome from "./components/Home/AdminHome";
 
 function App() {
   const [message, setMessage] = useState("");
-  
+
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("token") !== null
   );
 
-  console.log(isAuthenticated)
-  
+  useEffect(() => {
+    setIsAuthenticated(localStorage.getItem("token") !== null);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const checkServerConnection = async () => {
@@ -64,10 +66,8 @@ function App() {
               <Route path="/seller" element={<SellerForm />} />
               <Route path="/shome" element={<SellerHome />} />
               <Route path="/bhome" element={<BuyerHome />} />
-              
-              <Route path ="adminhome" element={<AdminHome/>}/>
-
-
+              <Route path="/seller/edit/:id" element={<EditProduct />} />{" "}
+              <Route path="adminhome" element={<AdminHome />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/addProduct" element={<SellerForm />} />
             </Route>

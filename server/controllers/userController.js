@@ -77,7 +77,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
 
   export const updateUserProfile = catchAsyncErrors(async (req, res, next) => {
     const { name, phone } = req.body;
-  
+
     if (!name && !phone) {
       return next(new ErrorHandler("Please provide fields to update", 400));
     }
@@ -86,7 +86,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     if (name) updatedFields.name = name;
     if (phone) updatedFields.phone = phone;
   
-    const user = await User.findByIdAndUpdate(req.user.id, updatedFields, {
+    const user = await User.findByIdAndUpdate(req.user._id, updatedFields, {
       new: true,
       runValidators: true,
     });

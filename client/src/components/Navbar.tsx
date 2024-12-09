@@ -7,10 +7,12 @@ const Navbar = () => {
   const userRole = localStorage.getItem("role");
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  
+  console.log(token)
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("id");
     navigate("/");
   };
 

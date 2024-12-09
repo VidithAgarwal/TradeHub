@@ -63,22 +63,6 @@ export const getPresignedUrl = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export const uploadFile = catchAsyncErrors(async (req, res, next) => {
-  
-  console.log(req.body)
-  const file = req.file;
-  console.log(file)
-  console.log("HEre in ",url,file)
-  const uploadResponse = await fetch(url, {
-    method: "PUT",
-    headers: {
-      "Content-Type": file.type,
-    },
-    body: file, // The file is uploaded as the body of the PUT request
-  });
-
-  console.log(uploadResponse);
-});
 
 // Update a product
 export const updateProduct = catchAsyncErrors(async (req, res, next) => {
