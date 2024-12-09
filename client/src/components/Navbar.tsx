@@ -2,7 +2,11 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const Navbar = () => {
+type LogoutPageProps = {
+  onLogout: () => void;
+};
+
+const Navbar: React.FC<LogoutPageProps>= ({onLogout}) => {
   const token = localStorage.getItem("token");
   const userRole = localStorage.getItem("role");
   const navigate = useNavigate();
@@ -12,6 +16,7 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("id");
+    onLogout()
     navigate("/");
   };
 
