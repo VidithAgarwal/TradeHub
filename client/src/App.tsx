@@ -17,6 +17,7 @@ import Home from "./components/Home/Home";
 import Cart from "./components/Cart";
 import AboutUs from "./components/Aboutus";
 import EditProduct from "./components/Home/EditProduct";
+import AdminHome from "./components/Home/AdminHome";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -65,7 +66,8 @@ function App() {
               <Route path="/shome" element={<SellerHome />} />
               <Route path="/bhome" element={<BuyerHome />} />
               <Route path="/aboutus" element={<AboutUs />} />
-              <Route path="/seller/edit/:id" element={<EditProduct />} />
+              <Route path="/seller/edit/:id" element={<EditProduct />} />              <Route path ="adminhome" element={<AdminHome/>}/>
+
 
               <Route path="/profile" element={<Profile />} />
               <Route path="/addProduct" element={<SellerForm />} />
