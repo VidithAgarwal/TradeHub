@@ -13,7 +13,7 @@ const ProductPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleSellerClick = () => {
-    setShowModal(true);
+    navigate("/anonymous-profile", { state: product.seller });
   };
 
   const purchaseProduct = async (productId: string) => {
