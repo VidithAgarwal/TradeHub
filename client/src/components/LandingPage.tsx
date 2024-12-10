@@ -1,6 +1,28 @@
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const [redirectPath, setRedirectPath] = useState("/home");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check authentication and role from localStorage
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (token) {
+      if (role === "seller") {
+        setRedirectPath("/shome");
+      } else if (role === "buyer") {
+        setRedirectPath("/bhome");
+      } else if (role === "admin") {
+        setRedirectPath("/adminhome");
+      }
+    } else {
+      setRedirectPath("/home"); // Default path for unauthenticated users
+    }
+  }, []);
+
   return (
     <div className="container min-h-screen px-28 py-5">
       <div className="flex flex-col justify-center items-center text-center mt-20">
@@ -13,14 +35,14 @@ const LandingPage = () => {
           never before!
         </p>
         <div className="mt-8 flex space-x-6">
-          <a
-            href="#"
+          <button
+            onClick={() => navigate(redirectPath)}
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-medium shadow-md transition"
           >
             Get Started
-          </a>
+          </button>
           <a
-            href="#"
+            href="/aboutus"
             className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg text-lg font-medium shadow-md transition"
           >
             Learn More

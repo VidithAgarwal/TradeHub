@@ -63,7 +63,7 @@ const ProductPage: React.FC = () => {
             <p className="mt-4 text-gray-700">{error}</p>
           </div>
         ) : (
-          <div className="bg-gray-200 rounded-lg shadow-lg p-8 flex flex-col md:flex-row md:items-start md:max-w-4xl mx-auto">
+          <div className="bg-white rounded-lg shadow-lg p-8 flex flex-col md:flex-row md:items-start md:max-w-4xl mx-auto">
             <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
               <img
                 src={product.image}

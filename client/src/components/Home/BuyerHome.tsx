@@ -177,7 +177,7 @@ const BuyerHome = () => {
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="h-32 w-full object-cover rounded-t-lg"
+                  className="h-32 w-full object-scale-down bg-white rounded-t-lg"
                 />
                 <div className="mt-4">
                   <h3 className="text-lg font-bold">{product.name}</h3>
