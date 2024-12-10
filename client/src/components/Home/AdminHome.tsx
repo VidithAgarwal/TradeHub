@@ -6,6 +6,7 @@ const AdminHome = () => {
   const [buyers, setBuyers] = useState<any[]>([]);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [message, setMessage] = useState<string>("");
 
   const fetchUsersWithProducts = async () => {
     try {
@@ -14,16 +15,17 @@ const AdminHome = () => {
         throw new Error("User is not authenticated");
       }
 
-      
-      const response = await axios.get("http://localhost:5000/api/user/get-users-with-products", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "http://localhost:5000/api/user/get-users-with-products",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
 
       const data = response.data;
-      console.log("Fetched data:", data);
 
       if (data.success) {
         setSellers(data.data.sellers || []);
@@ -33,10 +35,38 @@ const AdminHome = () => {
         setError("Failed to fetch user data.");
       }
     } catch (err: any) {
-      console.error("Error fetching user data:", err);
       setError(err.response?.data?.message || err.message || "Failed to load data.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const deleteUser = async (userId: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("User is not authenticated");
+      }
+
+      const response = await axios.get(
+        `http://localhost:5000/api/user/delete/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      const data = response.data;
+      if (data.success) {
+        setMessage("User deleted successfully!");
+        fetchUsersWithProducts(); // Refresh the list of users
+      } else {
+        setMessage("Failed to delete user.");
+      }
+    } catch (err: any) {
+      setMessage(err.response?.data?.message || err.message || "Failed to delete user.");
     }
   };
 
@@ -51,6 +81,7 @@ const AdminHome = () => {
         <p className="text-gray-600 text-lg mt-4">
           Manage and view all registered users and their products.
         </p>
+        {message && <p className="text-green-500 text-lg mt-4">{message}</p>}
       </div>
 
       {loading ? (
@@ -59,14 +90,22 @@ const AdminHome = () => {
         <p className="text-red-500 text-center">{error}</p>
       ) : (
         <div className="space-y-12 flex flex-col items-center">
+          {/* Sellers Section */}
           <div className="w-full">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Sellers</h2>
             {sellers.length > 0 ? (
               sellers.map((seller) => (
                 <div
                   key={seller._id}
-                  className="bg-white max-w-lg mx-auto rounded-lg shadow p-6 mb-6"
+                  className="bg-white max-w-lg mx-auto rounded-lg shadow p-6 mb-6 relative"
                 >
+                  <button
+                    onClick={() => deleteUser(seller._id)}
+                    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                    title="Delete User"
+                  >
+                    ✖
+                  </button>
                   <h3 className="text-xl font-bold text-blue-600">{seller.name}</h3>
                   <p className="text-gray-600">Email: {seller.email}</p>
                   <h4 className="text-lg font-semibold text-gray-800 mt-4">
@@ -90,14 +129,22 @@ const AdminHome = () => {
             )}
           </div>
 
+          {/* Buyers Section */}
           <div className="w-full">
             <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Buyers</h2>
             {buyers.length > 0 ? (
               buyers.map((buyer) => (
                 <div
                   key={buyer._id}
-                  className="bg-white max-w-lg mx-auto rounded-lg shadow p-6 mb-6"
+                  className="bg-white max-w-lg mx-auto rounded-lg shadow p-6 mb-6 relative"
                 >
+                  <button
+                    onClick={() => deleteUser(buyer._id)}
+                    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                    title="Delete User"
+                  >
+                    ✖
+                  </button>
                   <h3 className="text-xl font-bold text-blue-600">{buyer.name}</h3>
                   <p className="text-gray-600">Email: {buyer.email}</p>
                   <h4 className="text-lg font-semibold text-gray-800 mt-4">
