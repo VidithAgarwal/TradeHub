@@ -5,11 +5,12 @@ import User from "../models/userSchema.js";
 import { s3 } from "../server.js";
 // Create a product
 export const createProduct = catchAsyncErrors(async (req, res, next) => {
-  const { name, image, price, location, description, quantity, category } =
+  const { name, image, price, location, description, category } =
     req.body;
   const seller = req.user.id;
 
-  if (!name || !price || !location || !description || !quantity) {
+  if (!name || !price || !location || !description) {
+    console.log("Hello");
     return next(new ErrorHandler("Please fill in all fields", 400));
   }
   if (req.user.role !== "seller") {
@@ -22,7 +23,6 @@ export const createProduct = catchAsyncErrors(async (req, res, next) => {
     price,
     location,
     description,
-    quantity,
     category,
     seller,
   });
@@ -67,7 +67,7 @@ export const getPresignedUrl = catchAsyncErrors(async (req, res, next) => {
 // Update a product
 export const updateProduct = catchAsyncErrors(async (req, res, next) => {
   const productId = req.params.id;
-  const { name, image, price, location, description, quantity, category } =
+  const { name, image, price, location, description, category } =
     req.body;
 
   const product = await Product.findById(productId);
@@ -86,7 +86,6 @@ export const updateProduct = catchAsyncErrors(async (req, res, next) => {
   if (image) product.image = image;
   if (price) product.price = price;
   if (location) product.location = location;
-  if (quantity) product.quantity = quantity;
   if (description) product.description = description;
   if (category) product.category = category;
 
