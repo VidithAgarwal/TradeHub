@@ -61,12 +61,14 @@ const AdminHome = () => {
       const data = response.data;
       if (data.success) {
         setMessage("User deleted successfully!");
-        fetchUsersWithProducts(); // Refresh the list of users
+        fetchUsersWithProducts();
       } else {
         setMessage("Failed to delete user.");
       }
     } catch (err: any) {
       setMessage(err.response?.data?.message || err.message || "Failed to delete user.");
+    } finally {
+      setTimeout(() => setMessage(""), 3000);
     }
   };
 
@@ -81,8 +83,17 @@ const AdminHome = () => {
         <p className="text-gray-600 text-lg mt-4">
           Manage and view all registered users and their products.
         </p>
-        {message && <p className="text-green-500 text-lg mt-4">{message}</p>}
       </div>
+
+      {/* Success Notification */}
+      {message && (
+        <div
+          className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-md shadow-md text-center"
+          style={{ zIndex: 1000 }}
+        >
+          {message}
+        </div>
+      )}
 
       {loading ? (
         <p className="text-center text-gray-500">Loading data...</p>

@@ -85,14 +85,14 @@ const Navbar: React.FC<LogoutPageProps>= ({onLogout}) => {
               Add Product
             </Link>
           )}
-          {userRole === "buyer" && (
+          {/* {userRole === "buyer" && (
             <Link
               to="/cart"
               className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
             >
               Orders
             </Link>
-          )}
+          )} */}
 
           {userRole !== "admin" && (
             <li>
