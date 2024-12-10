@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const AdminHome = () => {
   const [sellers, setSellers] = useState<any[]>([]);
@@ -13,25 +14,15 @@ const AdminHome = () => {
         throw new Error("User is not authenticated");
       }
 
-      const response = await fetch(
-        "http://localhost:5001/api/user/get-users-with-products",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          credentials: "include",
-        }
-      );
+      
+      const response = await axios.get("http://localhost:5000/api/user/get-users-with-products", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
 
-      if (!response.ok) {
-        const errorData = await response.text();
-        console.error("Error response from server:", errorData);
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = response.data;
       console.log("Fetched data:", data);
 
       if (data.success) {
@@ -41,9 +32,9 @@ const AdminHome = () => {
       } else {
         setError("Failed to fetch user data.");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error fetching user data:", err);
-      setError(err.message || "Failed to load data.");
+      setError(err.response?.data?.message || err.message || "Failed to load data.");
     } finally {
       setLoading(false);
     }
