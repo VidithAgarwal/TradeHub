@@ -35,6 +35,7 @@ const LoginPage: React.FC<LoginPageProps> = ({onLogin}) => {
       localStorage.setItem("token", response?.token);
       localStorage.setItem("role", response?.user?.role);
       localStorage.setItem("id", response?.user?._id);
+      console.log("role", response.user.role);
       setTimeout(() => {
         setSuccess("");
         if (response?.user?.role === "buyer") {

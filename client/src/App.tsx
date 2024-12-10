@@ -15,7 +15,7 @@ import BuyerHome from "./components/Home/BuyerHome";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./components/Home/Home";
 import Cart from "./components/Cart";
-import AboutUs from "./components/Aboutus";
+import AboutUs from "./components/AboutUs";
 import EditProduct from "./components/Home/EditProduct";
 import AdminHome from "./components/Home/AdminHome";
 
@@ -36,17 +36,7 @@ function App() {
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [isAuthenticated]);
-
-  const handleLogin = (token: string): void => {
-    localStorage.setItem("token", token);
-    setIsAuthenticated(true);
-  };
-
-  const handleLogout = (): void => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
-  };
+  }, []);
 
   useEffect(() => {
     const checkServerConnection = async () => {
@@ -61,7 +51,7 @@ function App() {
 
     checkServerConnection();
   }, []);
-
+  console.log("auth", isAuthenticated);
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
       <Router>

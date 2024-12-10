@@ -13,21 +13,20 @@ const AdminHome = () => {
         throw new Error("User is not authenticated");
       }
 
-
       const response = await fetch(
-        "http://localhost:5000/api/user/get-users-with-products",
+        "http://localhost:5001/api/user/get-users-with-products",
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          credentials: "include"
+          credentials: "include",
         }
       );
 
       if (!response.ok) {
-        const errorData = await response.text(); // Log server response
+        const errorData = await response.text();
         console.error("Error response from server:", errorData);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -68,12 +67,15 @@ const AdminHome = () => {
       ) : error ? (
         <p className="text-red-500 text-center">{error}</p>
       ) : (
-        <div className="space-y-12">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Sellers</h2>
+        <div className="space-y-12 flex flex-col items-center">
+          <div className="w-full">
+            <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Sellers</h2>
             {sellers.length > 0 ? (
               sellers.map((seller) => (
-                <div key={seller._id} className="bg-white rounded-lg shadow p-6 mb-6">
+                <div
+                  key={seller._id}
+                  className="bg-white max-w-lg mx-auto rounded-lg shadow p-6 mb-6"
+                >
                   <h3 className="text-xl font-bold text-blue-600">{seller.name}</h3>
                   <p className="text-gray-600">Email: {seller.email}</p>
                   <h4 className="text-lg font-semibold text-gray-800 mt-4">
@@ -97,11 +99,14 @@ const AdminHome = () => {
             )}
           </div>
 
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Buyers</h2>
+          <div className="w-full">
+            <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Buyers</h2>
             {buyers.length > 0 ? (
               buyers.map((buyer) => (
-                <div key={buyer._id} className="bg-white rounded-lg shadow p-6 mb-6">
+                <div
+                  key={buyer._id}
+                  className="bg-white max-w-lg mx-auto rounded-lg shadow p-6 mb-6"
+                >
                   <h3 className="text-xl font-bold text-blue-600">{buyer.name}</h3>
                   <p className="text-gray-600">Email: {buyer.email}</p>
                   <h4 className="text-lg font-semibold text-gray-800 mt-4">

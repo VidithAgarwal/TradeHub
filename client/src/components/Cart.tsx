@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getUserOrders } from "../services/api";
+
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState<any[]>([
     {
@@ -23,9 +24,11 @@ const Cart = () => {
     const data = await getUserOrders(userId);
     setCartProducts(data?.products);
   };
+
   useEffect(() => {
     getProducts();
   }, []);
+
   return (
     <div className="container mx-auto px-6 py-5 min-h-screen">
       <div className="text-center mb-8">
@@ -48,7 +51,7 @@ const Cart = () => {
           {cartProducts.map((product: any) => (
             <div
               key={product._id}
-              className="bg-white rounded-lg shadow-md p-6 flex items-center hover:shadow-lg transition"
+              className="bg-white rounded-lg shadow-md p-6 flex items-center hover:shadow-lg transition mx-auto w-1/2"
             >
               <img
                 src={product.image}

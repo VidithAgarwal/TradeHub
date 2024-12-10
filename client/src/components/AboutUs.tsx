@@ -84,6 +84,18 @@ const AboutUs: React.FC = () => {
         <p className="text-center text-lg font-medium">
           Join <span className="font-bold">TradeHub</span> today and discover the world of endless opportunities!
         </p>
+        <p className="text-center text-lg font-medium">
+  <a
+    href="https://github.com/VidithAgarwal/TradeHub"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white underline text-lg block mb-2"
+  >
+    GitHub Repository: TradeHub
+  </a>
+  <span className="text-white text-lg">Course: CS5610</span>
+</p>
+
       </div>
     </div>
   );
