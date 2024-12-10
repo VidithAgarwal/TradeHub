@@ -53,7 +53,6 @@ const AnonymousProfile = () => {
               className="w-28 h-28 rounded-full mx-auto shadow-md"
             />
             <h2 className="text-2xl font-semibold mt-4">{user?.name}</h2>
-            <p className="text-gray-500">{user?.email}</p>
             <p className="text-sm text-gray-500 capitalize">{user?.role}</p>
           </div>
 
