@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   getProfileDetails,
   updateProfile,
@@ -188,13 +189,31 @@ const Profile = () => {
                       {product.name}
                     </h3>
                     <p className="text-gray-600">Price: ${product.price}</p>
-                    <p className="text-sm text-gray-500 mt-2">
-                      {userRole === "buyer"
-                        ? `Sold by: ${product?.seller?.name}`
-                        : product.sold
-                        ? `Sold to: ${product?.buyerDetails?.name}`
-                        : "Available"}
-                    </p>
+                    {userRole === "buyer" ? (
+                      <span>
+                        Sold by:{" "}
+                        <Link
+                          to="/anonymous-profile"
+                          state={{ _id: product?.seller?._id }}
+                          className="text-blue-500 hover:underline"
+                        >
+                          {product?.seller?.name}
+                        </Link>
+                      </span>
+                    ) : product.sold ? (
+                      <span>
+                        Sold to:{" "}
+                        <Link
+                          to="/anonymous-profile"
+                          state={{ _id: product?.buyerDetails?._id }}
+                          className="text-blue-500 hover:underline"
+                        >
+                          {product?.buyerDetails?.name}
+                        </Link>
+                      </span>
+                    ) : (
+                      "Available"
+                    )}
                     {/* <a
                       href={`/profile/${product.buyerId || product.sellerId}`}
                       className="text-blue-500 hover:underline mt-2 block"
