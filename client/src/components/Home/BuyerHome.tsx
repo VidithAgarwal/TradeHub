@@ -188,6 +188,14 @@ const BuyerHome = () => {
                   <p className="text-sm text-gray-500 mt-3">
                     Description : {product.description}
                   </p>
+                  <button
+                    onClick={() =>
+                      navigate(`/bhome/${product._id}`, { state: product })
+                    }
+                    className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition"
+                  >
+                    View Product
+                  </button>
                 </div>
               </div>
             ))
