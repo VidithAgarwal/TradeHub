@@ -34,6 +34,7 @@ const SignUpPage: React.FC<SignupPageProp> = ({ onSignup }) => {
       console.log("User registered:", response);
       localStorage.setItem("token", response?.token);
       localStorage.setItem("role", response?.user?.role);
+      localStorage.setItem("id", response?.user?._id);
       onSignup(response?.token);
       if (response?.user?.role === "buyer") {
         navigate("/bhome");
@@ -41,7 +42,7 @@ const SignUpPage: React.FC<SignupPageProp> = ({ onSignup }) => {
         navigate("/shome");
       }
     } catch (err: any) {
-      setError(err.message || "Something went wrong"); // Show error message
+      setError(err.message || "Something went wrong");
     }
   };
 

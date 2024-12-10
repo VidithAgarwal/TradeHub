@@ -6,12 +6,12 @@ type LogoutPageProps = {
   onLogout: () => void;
 };
 
-const Navbar: React.FC<LogoutPageProps>= ({onLogout}) => {
+const Navbar: React.FC<LogoutPageProps> = ({ onLogout }) => {
   const token = localStorage.getItem("token");
   const userRole = localStorage.getItem("role");
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -24,8 +24,15 @@ const Navbar: React.FC<LogoutPageProps>= ({onLogout}) => {
   return (
     <div className="container mx-auto px-6 py-5">
       <nav className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 px-6 rounded-lg">
-        <Link to="/" className="text-xl font-bold cursor-pointer">
-          <img src="./vite.svg" alt="Logo" className="h-8 inline-block" />
+        <Link to="/" className="flex items-center space-x-3">
+          <img
+            src="./TRADEHUB.png"
+            alt="TradeHub Logo"
+            className="h-10 w-auto object-contain"
+          />
+          <span className="text-xl font-bold text-gray-800 hover:text-indigo-300 transition-colors duration-300">
+            TradeHub
+          </span>
         </Link>
 
         <button
@@ -48,9 +55,8 @@ const Navbar: React.FC<LogoutPageProps>= ({onLogout}) => {
           </svg>
         </button>
         <ul
-          className={`lg:flex lg:items-center lg:justify-between lg:space-x-6 ${
-            isMenuOpen ? "block" : "hidden"
-          } w-full lg:w-auto lg:flex-row flex flex-col lg:ml-auto mt-4 lg:mt-0`}
+          className={`lg:flex lg:items-center lg:justify-between lg:space-x-6 ${isMenuOpen ? "block" : "hidden"
+            } w-full lg:w-auto lg:flex-row flex flex-col lg:ml-auto mt-4 lg:mt-0`}
         >
           <li>
             <Link
@@ -66,10 +72,10 @@ const Navbar: React.FC<LogoutPageProps>= ({onLogout}) => {
                 userRole === "buyer"
                   ? "/bhome"
                   : userRole === "seller"
-                  ? "/shome"
-                  : userRole === "admin"
-                  ? "/adminhome"
-                  : "/home"
+                    ? "/shome"
+                    : userRole === "admin"
+                      ? "/adminhome"
+                      : "/home"
               }
               className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
             >
@@ -85,14 +91,14 @@ const Navbar: React.FC<LogoutPageProps>= ({onLogout}) => {
               Add Product
             </Link>
           )}
-          {userRole === "buyer" && (
+          {/* {userRole === "buyer" && (
             <Link
               to="/cart"
               className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
             >
               Orders
             </Link>
-          )}
+          )} */}
 
           {userRole !== "admin" && (
             <li>
@@ -134,14 +140,14 @@ const Navbar: React.FC<LogoutPageProps>= ({onLogout}) => {
                   Login
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/signup"
                   className="block no-underline text-white hover:text-yellow-300 px-4 py-2 lg:py-0"
                 >
                   SignUp
                 </Link>
-              </li>
+              </li> */}
             </>
           )}
         </ul>

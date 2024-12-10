@@ -180,7 +180,7 @@ const Home = () => {
                 <img
                   src={product.thumbnail}
                   alt={product.title}
-                  className="h-32 w-full object-cover rounded-t-lg"
+                  className="h-32 w-full object-contain bg-white rounded-t-lg"
                 />
                 <div className="mt-4">
                   <h3 className="text-lg font-bold">{product.title}</h3>

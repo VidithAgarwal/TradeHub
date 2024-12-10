@@ -15,9 +15,10 @@ import BuyerHome from "./components/Home/BuyerHome";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./components/Home/Home";
 import Cart from "./components/Cart";
-import AboutUs from "./components/Aboutus";
+import AboutUs from "./components/AboutUs";
 import EditProduct from "./components/Home/EditProduct";
 import AdminHome from "./components/Home/AdminHome";
+import AnonymousProfile from "./components/Profile/AnonymousProfile";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -83,6 +84,7 @@ function App() {
               <Route path="/seller/edit/:id" element={<EditProduct />} />{" "}
               <Route path="/adminhome" element={<AdminHome />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/anonymous-profile" element={<AnonymousProfile />} />
               <Route path="/addProduct" element={<SellerForm />} />
             </Route>
           </Routes>

@@ -6,7 +6,6 @@ const SellerForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    quantity: "",
     location: "",
     image: "",
     price: "",
@@ -40,7 +39,6 @@ const SellerForm: React.FC = () => {
     if (
       !formData.name ||
       !formData.description ||
-      !formData.quantity ||
       !formData.location ||
       !formData.price ||
       !formData.category
@@ -155,26 +153,6 @@ const SellerForm: React.FC = () => {
               <option value="toys-and-games">Toys and Games</option>
               <option value="home-goods">Home Goods</option>
             </select>
-          </div>
-
-          {/* Quantity */}
-          <div>
-            <label
-              htmlFor="quantity"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Quantity
-            </label>
-            <input
-              id="quantity"
-              name="quantity"
-              type="number"
-              required
-              value={formData.quantity}
-              onChange={handleChange}
-              placeholder="Enter product quantity"
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
           </div>
 
           {/* Location */}

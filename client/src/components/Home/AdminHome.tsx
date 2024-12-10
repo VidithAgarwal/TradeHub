@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const AdminHome = () => {
   const [sellers, setSellers] = useState<any[]>([]);
   const [buyers, setBuyers] = useState<any[]>([]);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [message, setMessage] = useState<string>("");
 
   const fetchUsersWithProducts = async () => {
     try {
@@ -13,27 +15,17 @@ const AdminHome = () => {
         throw new Error("User is not authenticated");
       }
 
-
-      const response = await fetch(
+      const response = await axios.get(
         "http://localhost:5000/api/user/get-users-with-products",
         {
-          method: "GET",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          credentials: "include"
+          withCredentials: true,
         }
       );
 
-      if (!response.ok) {
-        const errorData = await response.text(); // Log server response
-        console.error("Error response from server:", errorData);
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Fetched data:", data);
+      const data = response.data;
 
       if (data.success) {
         setSellers(data.data.sellers || []);
@@ -42,11 +34,41 @@ const AdminHome = () => {
       } else {
         setError("Failed to fetch user data.");
       }
-    } catch (err) {
-      console.error("Error fetching user data:", err);
-      setError(err.message || "Failed to load data.");
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || "Failed to load data.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const deleteUser = async (userId: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("User is not authenticated");
+      }
+
+      const response = await axios.get(
+        `http://localhost:5000/api/user/delete/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      const data = response.data;
+      if (data.success) {
+        setMessage("User deleted successfully!");
+        fetchUsersWithProducts();
+      } else {
+        setMessage("Failed to delete user.");
+      }
+    } catch (err: any) {
+      setMessage(err.response?.data?.message || err.message || "Failed to delete user.");
+    } finally {
+      setTimeout(() => setMessage(""), 3000);
     }
   };
 
@@ -63,17 +85,38 @@ const AdminHome = () => {
         </p>
       </div>
 
+      {/* Success Notification */}
+      {message && (
+        <div
+          className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-md shadow-md text-center"
+          style={{ zIndex: 1000 }}
+        >
+          {message}
+        </div>
+      )}
+
       {loading ? (
         <p className="text-center text-gray-500">Loading data...</p>
       ) : error ? (
         <p className="text-red-500 text-center">{error}</p>
       ) : (
-        <div className="space-y-12">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Sellers</h2>
+        <div className="space-y-12 flex flex-col items-center">
+          {/* Sellers Section */}
+          <div className="w-full">
+            <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Sellers</h2>
             {sellers.length > 0 ? (
               sellers.map((seller) => (
-                <div key={seller._id} className="bg-white rounded-lg shadow p-6 mb-6">
+                <div
+                  key={seller._id}
+                  className="bg-white max-w-lg mx-auto rounded-lg shadow p-6 mb-6 relative"
+                >
+                  <button
+                    onClick={() => deleteUser(seller._id)}
+                    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                    title="Delete User"
+                  >
+                    ✖
+                  </button>
                   <h3 className="text-xl font-bold text-blue-600">{seller.name}</h3>
                   <p className="text-gray-600">Email: {seller.email}</p>
                   <h4 className="text-lg font-semibold text-gray-800 mt-4">
@@ -97,11 +140,22 @@ const AdminHome = () => {
             )}
           </div>
 
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Buyers</h2>
+          {/* Buyers Section */}
+          <div className="w-full">
+            <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Buyers</h2>
             {buyers.length > 0 ? (
               buyers.map((buyer) => (
-                <div key={buyer._id} className="bg-white rounded-lg shadow p-6 mb-6">
+                <div
+                  key={buyer._id}
+                  className="bg-white max-w-lg mx-auto rounded-lg shadow p-6 mb-6 relative"
+                >
+                  <button
+                    onClick={() => deleteUser(buyer._id)}
+                    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
+                    title="Delete User"
+                  >
+                    ✖
+                  </button>
                   <h3 className="text-xl font-bold text-blue-600">{buyer.name}</h3>
                   <p className="text-gray-600">Email: {buyer.email}</p>
                   <h4 className="text-lg font-semibold text-gray-800 mt-4">
